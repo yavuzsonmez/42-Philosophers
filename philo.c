@@ -6,7 +6,16 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/15 18:44:15 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/15 19:02:07 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "philo.h"
+
+int main(int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+	printf("hello world\n");
+	return 0;
+}
