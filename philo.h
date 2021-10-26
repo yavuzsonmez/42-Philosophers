@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/15 19:24:38 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/26 13:17:54 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@
 # include	<limits.h>
 # include	<stdio.h>
 # include	<string.h>
-# include	<stlib.h>
+# include	<stdlib.h>
 # include	<unistd.h>
-# include <signal.h>
+#include	<sys/time.h>
+# include	<signal.h>
+#include	<pthread.h>
 
 
 #endif
