@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/28 17:35:42 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/29 15:18:43 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_param
 
 typedef struct s_ph
 {
-	t_param	param;
-	int test;
+	int			i;
+	pthread_t	philosoph;
 }	t_ph;
 
 /*	UTILITIES.C */
