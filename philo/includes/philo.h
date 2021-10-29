@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/29 19:16:02 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/29 20:53:33 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include	<sys/time.h>
 # include	<signal.h>
 #include	<pthread.h>
+#include	<stdbool.h>
 
 
 
@@ -49,8 +50,8 @@ typedef struct s_ph
 {
 	int			i;
 	pthread_t	philosoph;
-	//bool		fork;
-	//bool		alive;
+	bool		fork_in_use;
+	bool		alive;
 }	t_ph;
 
 /*	UTILITIES.C */

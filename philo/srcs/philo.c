@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/29 20:19:15 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/29 20:53:02 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ size_t	parameters(char **argv, t_param *param)
 
 }
 
-void	*dinner()
+void	*schedule()
 {
  	long start_time;
 	start_time = get_time();
@@ -62,17 +62,19 @@ t_ph	*create_philo(t_param *param)
 	while (i < param->nb_philo)
 	{
 		philo[i].i = i + 1;
-		if (pthread_create(&philo[i].philosoph, NULL, &dinner, NULL))
+		if (pthread_create(&philo[i].philosoph, NULL, &schedule, NULL))
 		{
 			free(philo);
 			return (NULL);
 		}
+		philo[i].fork_in_use = false;
+		philo[i].alive = true;
 		i++;
 	}
 	return (philo);
 }
 
-int	kill_philo(t_param *param, t_ph *philo)
+int	join_philo(t_param *param, t_ph *philo)
 {
 	int		i;
 
@@ -103,7 +105,7 @@ int main(int argc, char **argv)
 	philo = create_philo(&param);
 	if (philo == NULL)
 		return (1);
-	if (kill_philo(&param, philo))
+	if (join_philo(&param, philo))
 		return (1);
 	free(philo);
 	return (0);
