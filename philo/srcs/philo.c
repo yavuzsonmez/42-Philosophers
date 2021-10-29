@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/29 15:23:46 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/29 20:19:15 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ size_t	parameters(char **argv, t_param *param)
 		return (1);
 	else if (param->time_to_sleep < 0 || param->time_to_sleep > 2147483647)
 		return (1);
-	else if (argv[5] != NULL && (param->time_to_sleep < 0 || param->time_to_sleep > 2147483647))
+	else if (argv[5] != NULL && (param->time_to_sleep < 0
+		|| param->time_to_sleep > 2147483647))
 		return (1);
 	return (0);
 
@@ -38,7 +39,14 @@ size_t	parameters(char **argv, t_param *param)
 
 void	*dinner()
 {
-	printf("Im am dining\n");
+ 	long start_time;
+	start_time = get_time();
+
+	while (1)
+	{
+		printf("%ld\n", get_time() - start_time);
+		ft_sleep(200);
+	}
 	return (NULL);
 }
 
@@ -54,11 +62,31 @@ t_ph	*create_philo(t_param *param)
 	while (i < param->nb_philo)
 	{
 		philo[i].i = i + 1;
-		if(pthread_create(&philo[i].philosoph, NULL, &dinner, NULL))
+		if (pthread_create(&philo[i].philosoph, NULL, &dinner, NULL))
+		{
+			free(philo);
 			return (NULL);
+		}
 		i++;
 	}
 	return (philo);
+}
+
+int	kill_philo(t_param *param, t_ph *philo)
+{
+	int		i;
+
+	i = 0;
+	while (i < param->nb_philo)
+	{
+		if (pthread_join(philo[i].philosoph, NULL))
+		{
+			free(philo);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 /*	Philosophers with THREADS & MUTEX */
@@ -75,15 +103,8 @@ int main(int argc, char **argv)
 	philo = create_philo(&param);
 	if (philo == NULL)
 		return (1);
-	/* Loop to create threads */
-	printf("TEST!!\nNumber of philo %d\nTime to die %d\nTime to eat %d\nTime to sleep %d\nMeals per philo %d\n", param.nb_philo, param.time_to_die, param.time_to_eat, param.time_to_sleep, param.meals_per_philo);
-	printf("END TEST PARAMETERS\n");
-	int i = 0;
-	while (i < param.nb_philo)
-	{
-		printf("philo numero %d UP\n", philo[i].i);
-		i++;
-	}
+	if (kill_philo(&param, philo))
+		return (1);
 	free(philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/29 15:18:43 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/10/29 19:16:02 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,26 @@ typedef struct s_param
 	int	meals_per_philo;
 }	t_param;
 
+//typedef enum s_state
+//{
+//
+//}	t_state;
+
 typedef struct s_ph
 {
 	int			i;
 	pthread_t	philosoph;
+	//bool		fork;
+	//bool		alive;
 }	t_ph;
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
+
+/*	TIMER.C */
+long		get_time(void);
+void		ft_sleep(long time);
+
+/*	PRINTER.C */
 
 #endif

@@ -6,7 +6,7 @@
 #    By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/10/28 16:45:23 by ysonmez          ###   ########.fr        #
+#    Updated: 2021/10/29 19:14:48 by ysonmez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,8 @@ NAME			=		philo
 
 SRCS			=		srcs/philo.c \
 						srcs/utilities.c \
+						srcs/timer.c \
+						srcs/printer.c \
 
 OBJS			=		$(SRCS:.c=.o)
 
