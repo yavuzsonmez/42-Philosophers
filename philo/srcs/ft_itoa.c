@@ -6,9 +6,11 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:17:09 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/10/29 19:17:11 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 10:14:53 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/philo.h"
 
 static int	count_digit(unsigned int n)
 {
