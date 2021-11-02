@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 11:25:52 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 13:04:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ typedef struct s_param
 
 typedef enum e_state
 {
-	FORK	=	0,
-	EAT		=	1,
-	SLEEP	=	2,
-	THINK	=	3,
-	DIE		=	4,
+	NOT_INIT	=	0,
+	FORK		=	1,
+	EAT			=	2,
+	SLEEP		=	3,
+	THINK		=	4,
+	DIE			=	5,
 }	t_state;
 
 typedef struct s_ph
@@ -58,6 +59,7 @@ typedef struct s_ph
 	pthread_t	philosoph;
 	bool		fork_in_use;
 	bool		alive;
+	int			state;
 }	t_ph;
 
 typedef struct s_data
@@ -67,12 +69,18 @@ typedef struct s_data
 	t_state				state;
 }	t_data;
 
+void	*schedule(void *data);
+
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
 
 /*	TIMER.C */
 long		get_time(void);
 void		ft_sleep(long time);
+
+/*	THREADS.C */
+int			create_philo(t_data *data);
+int			join_philo(t_data *data);
 
 /*	PRINTER.C */
 size_t	ft_strlen(const char *s);

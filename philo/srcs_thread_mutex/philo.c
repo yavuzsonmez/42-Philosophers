@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 11:33:34 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 13:25:15 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,40 @@ size_t	parameters(char **argv, t_data *data)
 
 }
 
-void	eat(t_data *data, long start_time)
+void	eating(t_data *data, long start_time)
 {
 	pthread_mutex_t	mutex;
 
 	pthread_mutex_init(&mutex, NULL);
 	if (data->philo[0].fork_in_use == false && data->philo[0 + 1].fork_in_use == false)
 	{
-
+		pthread_mutex_lock(&mutex);
 		data->philo[0].fork_in_use = true;
 		data->philo[0 + 1].fork_in_use = true;
-		if (printer(get_time() - start_time, data->philo[0].i, FORK))
-		{
-			free(data->philo);
-			return ;
-		}
+		printer(start_time, data->philo[0].i, FORK);
+		printer(start_time, data->philo[0].i, FORK);
+		data->philo[0].state = EAT;
+		printer(start_time, data->philo[0].i, EAT);
 		ft_sleep(data->param.time_to_eat);
+		data->philo[0].fork_in_use = false;
+		data->philo[0 + 1].fork_in_use = false;
+		pthread_mutex_unlock(&mutex);
 	}
 	pthread_mutex_destroy(&mutex);
+}
+
+void	sleeping(t_data *data, long start_time)
+{
+	data->philo[0].state = SLEEP;
+	printer(start_time, data->philo[0].i, SLEEP);
+	ft_sleep(data->param.time_to_sleep);
+}
+
+void	thinking(t_data *data, long start_time)
+{
+	data->philo[0].state = THINK;
+	printer(start_time, data->philo[0].i, THINK);
+	ft_sleep(100);
 }
 
 void	*schedule(void *data)
@@ -64,50 +80,13 @@ void	*schedule(void *data)
 	start_time = get_time();
 	while (1)
 	{
-		eat(data, start_time);
+		eating(data, get_time() - start_time);
+		sleeping(data, get_time() - start_time);
+		thinking(data, get_time() - start_time);
 	}
 	return (NULL);
 }
 
-int	create_philo(t_data *data)
-{
-	int		i;
-
-	i = 0;
-	data->philo = (t_ph *)malloc(sizeof(t_ph) * data->param.nb_philo);
-	if (data->philo == NULL)
-		return (1);
-	while (i < data->param.nb_philo)
-	{
-		data->philo[i].i = i + 1;
-		if (pthread_create(&data->philo[i].philosoph, NULL, &schedule, (void *)data))
-		{
-			free(data->philo);
-			return (1);
-		}
-		data->philo[i].fork_in_use = false;
-		data->philo[i].alive = true;
-		i++;
-	}
-	return (0);
-}
-
-int	join_philo(t_data *data)
-{
-	int		i;
-
-	i = 0;
-	while (i < data->param.nb_philo)
-	{
-		if (pthread_join(data->philo[i].philosoph, NULL))
-		{
-			free(data->philo);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
 
 /*	Philosophers with THREADS & MUTEX */
 
