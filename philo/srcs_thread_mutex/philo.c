@@ -6,13 +6,13 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 13:25:15 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 15:53:30 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_t_m.h"
 
-/*	Getting the parameters passed to the program */
+/*	Store and verify the parameters passed to the program */
 
 size_t	parameters(char **argv, t_data *data)
 {
@@ -30,11 +30,9 @@ size_t	parameters(char **argv, t_data *data)
 		return (1);
 	else if (data->param.time_to_sleep < 0 || data->param.time_to_sleep > 2147483647)
 		return (1);
-	else if (argv[5] != NULL && (data->param.time_to_sleep < 0
-		|| data->param.time_to_sleep > 2147483647))
+	else if (data->param.meals_per_philo < 0 || data->param.meals_per_philo > 2147483647)
 		return (1);
 	return (0);
-
 }
 
 void	eating(t_data *data, long start_time)
@@ -73,20 +71,45 @@ void	thinking(t_data *data, long start_time)
 	ft_sleep(100);
 }
 
+void init_dinner(t_data *data, long start_time)
+{
+	int	parity;
+	int	i;
+
+	parity = data->param.nb_philo % 2;
+	i = 0;
+	while (i < data->param.nb_philo)
+	{
+		if (data->philo[i].i % 2 == ODD)
+		{
+			printer(get_time() - start_time, data->philo[i].i, FORK);
+			printer(get_time() - start_time, data->philo[i].i, FORK);
+			printer(get_time() - start_time, data->philo[i].i, EAT);
+			ft_sleep(data->param.time_to_eat);
+		}
+		else
+		{
+			printer(get_time() - start_time, data->philo[i].i, THINK);
+			ft_sleep(100);
+		}
+		i++;
+	}
+}
+
 void	*schedule(void *data)
 {
 	long start_time;
 
 	start_time = get_time();
-	while (1)
-	{
-		eating(data, get_time() - start_time);
-		sleeping(data, get_time() - start_time);
-		thinking(data, get_time() - start_time);
-	}
+	init_dinner(data, start_time);
+	//while (1)
+	//{
+	//	eating(data, get_time() - start_time);
+	//	sleeping(data, get_time() - start_time);
+	//	thinking(data, get_time() - start_time);
+	//}
 	return (NULL);
 }
-
 
 /*	Philosophers with THREADS & MUTEX */
 
@@ -98,6 +121,14 @@ int main(int argc, char **argv)
 		return (1);
 	if (parameters(argv, &data))
 		return (1);
+	if (data.param.nb_philo == 0)
+		return (0);
+	else if (data.param.nb_philo == 1)
+	{
+		ft_sleep(data.param.time_to_die);
+		printer(data.param.time_to_die, 1, DIE);
+		return (0);
+	}
 	if(create_philo(&data))
 		return (1);
 	if (join_philo(&data))
