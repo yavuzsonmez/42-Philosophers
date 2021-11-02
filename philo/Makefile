@@ -6,17 +6,17 @@
 #    By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/11/02 10:14:16 by ysonmez          ###   ########.fr        #
+#    Updated: 2021/11/02 11:04:03 by ysonmez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=		philo
 
-SRCS			=		srcs/philo.c \
-						srcs/utilities.c \
-						srcs/timer.c \
-						srcs/printer.c \
-						srcs/ft_itoa.c \
+SRCS			=		srcs_thread_mutex/philo.c \
+						srcs_thread_mutex/utilities.c \
+						srcs_thread_mutex/timer.c \
+						srcs_thread_mutex/printer.c \
+						srcs_thread_mutex/ft_itoa.c \
 
 OBJS			=		$(SRCS:.c=.o)
 

@@ -6,11 +6,11 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 10:15:39 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 11:33:34 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../includes/philo_t_m.h"
 
 /*	Getting the parameters passed to the program */
 
@@ -39,11 +39,22 @@ size_t	parameters(char **argv, t_data *data)
 
 void	eat(t_data *data, long start_time)
 {
-	if (data->philo[0].fork_in_use == false)
+	pthread_mutex_t	mutex;
+
+	pthread_mutex_init(&mutex, NULL);
+	if (data->philo[0].fork_in_use == false && data->philo[0 + 1].fork_in_use == false)
 	{
-		printer(get_time() - start_time, data->philo[0].i, FORK);
-		ft_sleep(100);
+
+		data->philo[0].fork_in_use = true;
+		data->philo[0 + 1].fork_in_use = true;
+		if (printer(get_time() - start_time, data->philo[0].i, FORK))
+		{
+			free(data->philo);
+			return ;
+		}
+		ft_sleep(data->param.time_to_eat);
 	}
+	pthread_mutex_destroy(&mutex);
 }
 
 void	*schedule(void *data)

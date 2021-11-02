@@ -6,11 +6,11 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 10:09:33 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 11:05:58 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "../includes/philo_t_m.h"
 
 /*	Return string length */
 

@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 10:13:42 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/11/02 11:25:52 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
+#ifndef PHILO_T_M_H
 
-# define PHILO_H
+# define PHILO_T_M_H
+
+/*	Header and Srcs with _T_M because :
+*		Philosopher with Thread and Mutexes
+*/
 
 /*
 *	INTEGER
@@ -41,11 +45,11 @@ typedef struct s_param
 
 typedef enum e_state
 {
-	FORK = 0,
-	EAT = 1,
-	SLEEP = 2,
-	THINK = 3,
-	DIE = 4,
+	FORK	=	0,
+	EAT		=	1,
+	SLEEP	=	2,
+	THINK	=	3,
+	DIE		=	4,
 }	t_state;
 
 typedef struct s_ph
@@ -58,9 +62,9 @@ typedef struct s_ph
 
 typedef struct s_data
 {
-	t_param	param;
-	t_ph	*philo;
-	t_state	state;
+	t_param				param;
+	t_ph				*philo;
+	t_state				state;
 }	t_data;
 
 /*	UTILITIES.C */
@@ -74,6 +78,6 @@ void		ft_sleep(long time);
 size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
-void	printer(long timer, int philo, int state);
+int		printer(long timer, int philo, int state);
 
 #endif
