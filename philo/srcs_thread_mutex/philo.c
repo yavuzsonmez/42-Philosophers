@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/02 19:16:49 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/02 19:39:42 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ void	take_lfork(t_data *data, long timer, int i)
 	pthread_mutex_unlock(&mutex);
 	pthread_mutex_destroy(&mutex);
 }
-
-
-void	sleeping(t_data *data, long start_time, int i)
-{
-	data->philo[0].state = SLEEP;
-	printer(start_time, data->philo[0].i, SLEEP);
-	ft_sleep(data->param.time_to_sleep);
-}
 */
+
+void	sleeping(t_ph *ph, long timer)
+{
+	printer(get_time() - timer, ph->i, SLEEP);
+	ft_sleep(ph->param->time_to_sleep);
+}
+
 void	eating(t_ph *ph, long timer)
 {
 	//take_rfork(data, timer, i);
@@ -90,16 +89,17 @@ void	thinking(t_ph *ph, long timer)
 	ft_sleep(100);
 }
 
+void starving(t_ph *ph, long timer)
+{
+	printer(get_time() - timer, ph->i, DIE);
+}
+
 void init_dinner(t_ph *ph, long timer)
 {
-	if (ph->i % 2 == ODD)
-	{
+	if (ph->i % 2 == EVEN)
 		eating(ph, timer);
-	}
 	else
-	{
 		thinking(ph, timer);
-	}
 }
 
 void	*schedule(void *ph)
@@ -108,13 +108,13 @@ void	*schedule(void *ph)
 
 	start_time = get_time();
 	init_dinner(ph, start_time);
-	//eating(data, get_time() - start_time);
-	//while (1)
-	//{
-	//	eating(data, get_time() - start_time);
-	//	sleeping(data, get_time() - start_time);
-	//	thinking(data, get_time() - start_time);
-	//}
+	while (1)
+	{
+		eating(ph, start_time);
+		sleeping(ph, start_time);
+		thinking(ph, start_time);
+		starving(ph, start_time);
+	}
 	return (NULL);
 }
 

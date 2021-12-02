@@ -6,9 +6,22 @@
 #    By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/11/02 13:03:38 by ysonmez          ###   ########.fr        #
+#    Updated: 2021/12/02 19:26:11 by ysonmez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# Reset
+Set_Color		=		\033[0m						# Text Reset
+
+# Regular Colors
+Black			=		\033[0;30m					# Black
+Red				=		\033[0;31m					# Red
+Green			=		\033[0;32m					# Green
+Yellow			=		\033[0;33m					# Yellow
+Blue			=		\033[0;34m					# Blue
+Purple			=		\033[0;35m					# Purple
+Cyan			=		\033[0;36m					# Cyan
+White			=		\033[0;37m					# White
 
 NAME			=		philo
 
@@ -21,20 +34,19 @@ SRCS			=		srcs_thread_mutex/philo.c \
 
 OBJS			=		$(SRCS:.c=.o)
 
-CC				=		gcc
-
 CFLAGS			=		-Wall -Wextra -Werror
 
-RM				=		rm -f
-
 $(NAME)			:		$(OBJS)
-						$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+						@gcc $(CFLAGS) $(OBJS) -o $(NAME)
+						@echo "$(Cyan)Philosopher with Threads and Mutex has been created$(Set_Color)"
 
 clean			:
-						$(RM) $(OBJS)
+						@rm -f $(OBJS)
+						@echo "$(Red).o files have been removed$(Set_Color)"
 
 fclean			:		clean
-						$(RM) $(NAME)
+						@rm -f $(NAME)
+						@echo "$(Red)Philo with Threads and Mutex has been removed$(Set_Color)"
 
 all				:		$(NAME)
 
