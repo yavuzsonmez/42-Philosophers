@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 15:53:30 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/02 19:16:49 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,101 @@
 
 /*	Store and verify the parameters passed to the program */
 
-size_t	parameters(char **argv, t_data *data)
+size_t	parameters(char **argv, t_param *param)
 {
-	data->param.nb_philo = ft_atoi_ll(argv[1]);
-	data->param.time_to_die = ft_atoi_ll(argv[2]);
-	data->param.time_to_eat = ft_atoi_ll(argv[3]);
-	data->param.time_to_sleep = ft_atoi_ll(argv[4]);
+	param->nb_philo = ft_atoi_ll(argv[1]);
+	param->time_to_die = ft_atoi_ll(argv[2]);
+	param->time_to_eat = ft_atoi_ll(argv[3]);
+	param->time_to_sleep = ft_atoi_ll(argv[4]);
 	if (argv[5] != NULL)
-		data->param.meals_per_philo = ft_atoi_ll(argv[5]);
-	if (data->param.nb_philo < 0 || data->param.nb_philo > 2147483647)
+		param->meals_per_philo = ft_atoi_ll(argv[5]);
+	if (param->nb_philo < 0 || param->nb_philo > 2147483647)
 		return (1);
-	else if (data->param.time_to_die < 0 || data->param.time_to_die > 2147483647)
+	else if (param->time_to_die < 0 || param->time_to_die > 2147483647)
 		return (1);
-	else if (data->param.time_to_eat < 0 || data->param.time_to_eat > 2147483647)
+	else if (param->time_to_eat < 0 || param->time_to_eat > 2147483647)
 		return (1);
-	else if (data->param.time_to_sleep < 0 || data->param.time_to_sleep > 2147483647)
+	else if (param->time_to_sleep < 0 || param->time_to_sleep > 2147483647)
 		return (1);
-	else if (data->param.meals_per_philo < 0 || data->param.meals_per_philo > 2147483647)
+	else if (param->meals_per_philo < 0 || param->meals_per_philo > 2147483647)
 		return (1);
 	return (0);
 }
 
-void	eating(t_data *data, long start_time)
+/*
+void	take_rfork(t_data *data, long timer, int i)
 {
 	pthread_mutex_t	mutex;
-
-	pthread_mutex_init(&mutex, NULL);
-	if (data->philo[0].fork_in_use == false && data->philo[0 + 1].fork_in_use == false)
-	{
-		pthread_mutex_lock(&mutex);
-		data->philo[0].fork_in_use = true;
-		data->philo[0 + 1].fork_in_use = true;
-		printer(start_time, data->philo[0].i, FORK);
-		printer(start_time, data->philo[0].i, FORK);
-		data->philo[0].state = EAT;
-		printer(start_time, data->philo[0].i, EAT);
-		ft_sleep(data->param.time_to_eat);
-		data->philo[0].fork_in_use = false;
-		data->philo[0 + 1].fork_in_use = false;
-		pthread_mutex_unlock(&mutex);
-	}
+	if (pthread_mutex_init(&mutex, NULL))
+		return ;
+	pthread_mutex_lock(&mutex);
+	data->philo[(i + 1) % data->param.nb_philo].fork = true;
+	printer(timer, data->philo[i].i, FORK);
+	pthread_mutex_unlock(&mutex);
 	pthread_mutex_destroy(&mutex);
 }
 
-void	sleeping(t_data *data, long start_time)
+void	take_lfork(t_data *data, long timer, int i)
+{
+	pthread_mutex_t	mutex;
+	if (pthread_mutex_init(&mutex, NULL))
+		return ;
+	pthread_mutex_lock(&mutex);
+	data->philo[i].fork = true;
+	printer(timer, data->philo[i].i, FORK);
+	pthread_mutex_unlock(&mutex);
+	pthread_mutex_destroy(&mutex);
+}
+
+
+void	sleeping(t_data *data, long start_time, int i)
 {
 	data->philo[0].state = SLEEP;
 	printer(start_time, data->philo[0].i, SLEEP);
 	ft_sleep(data->param.time_to_sleep);
 }
-
-void	thinking(t_data *data, long start_time)
+*/
+void	eating(t_ph *ph, long timer)
 {
-	data->philo[0].state = THINK;
-	printer(start_time, data->philo[0].i, THINK);
+	//take_rfork(data, timer, i);
+	//take_lfork(data, timer, i);
+	//if (data->philo[i].fork == true && data->philo[(i + 1) % data->param.nb_philo].fork == true)
+	//{
+	//	printer(timer, data->philo[i].i, EAT);
+	//	ft_sleep(data->param.time_to_eat);
+	//}
+	//data->philo[i].fork = false;
+	//data->philo[(i + 1) % data->param.nb_philo].fork = false;
+	printer(get_time() - timer, ph->i, EAT);
+	ft_sleep(ph->param->time_to_eat);
+
+}
+
+void	thinking(t_ph *ph, long timer)
+{
+	printer(get_time() - timer, ph->i, THINK);
 	ft_sleep(100);
 }
 
-void init_dinner(t_data *data, long start_time)
+void init_dinner(t_ph *ph, long timer)
 {
-	int	parity;
-	int	i;
-
-	parity = data->param.nb_philo % 2;
-	i = 0;
-	while (i < data->param.nb_philo)
+	if (ph->i % 2 == ODD)
 	{
-		if (data->philo[i].i % 2 == ODD)
-		{
-			printer(get_time() - start_time, data->philo[i].i, FORK);
-			printer(get_time() - start_time, data->philo[i].i, FORK);
-			printer(get_time() - start_time, data->philo[i].i, EAT);
-			ft_sleep(data->param.time_to_eat);
-		}
-		else
-		{
-			printer(get_time() - start_time, data->philo[i].i, THINK);
-			ft_sleep(100);
-		}
-		i++;
+		eating(ph, timer);
+	}
+	else
+	{
+		thinking(ph, timer);
 	}
 }
 
-void	*schedule(void *data)
+void	*schedule(void *ph)
 {
 	long start_time;
 
 	start_time = get_time();
-	init_dinner(data, start_time);
+	init_dinner(ph, start_time);
+	//eating(data, get_time() - start_time);
 	//while (1)
 	//{
 	//	eating(data, get_time() - start_time);
@@ -115,24 +122,27 @@ void	*schedule(void *data)
 
 int main(int argc, char **argv)
 {
-	t_data	data;
+	t_param		param;
+	t_ph		*ph;
 
 	if (argc < 5 || argc > 6)
 		return (1);
-	if (parameters(argv, &data))
+	if (parameters(argv, &param))
 		return (1);
-	if (data.param.nb_philo == 0)
+	if (param.nb_philo == 0)
 		return (0);
-	else if (data.param.nb_philo == 1)
+	else if (param.nb_philo == 1)
 	{
-		ft_sleep(data.param.time_to_die);
-		printer(data.param.time_to_die, 1, DIE);
+		printer(0, 1, FORK);
+		ft_sleep(param.time_to_die);
+		printer(param.time_to_die, 1, DIE);
 		return (0);
 	}
-	if(create_philo(&data))
+	ph = create_philo(&param);
+	if (ph == NULL)
 		return (1);
-	if (join_philo(&data))
+	if (join_philo(ph, param.nb_philo))
 		return (1);
-	free(data.philo);
+	//free();
 	return (0);
 }

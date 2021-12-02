@@ -6,46 +6,48 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 12:59:01 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/02 19:05:04 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_t_m.h"
 
-int	create_philo(t_data *data)
+t_ph	*create_philo(t_param *param)
 {
+	t_ph	*ph;
 	int		i;
 
 	i = 0;
-	data->philo = (t_ph *)malloc(sizeof(t_ph) * data->param.nb_philo);
-	if (data->philo == NULL)
-		return (1);
-	while (i < data->param.nb_philo)
+	ph = (t_ph *)malloc(sizeof(t_ph) * param->nb_philo);
+	if (ph == NULL)
+		return (NULL);
+	while (i < param->nb_philo)
 	{
-		data->philo[i].i = i + 1;
-		if (pthread_create(&data->philo[i].philosoph, NULL, &schedule, (void *)data))
+		ph[i].i = i + 1;
+		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
-			free(data->philo);
-			return (1);
+			free(ph);
+			return (NULL);
 		}
-		data->philo[i].fork_in_use = false;
-		data->philo[i].alive = true;
-		data->state = NOT_INIT;
+		ph[i].fork = false;
+		ph[i].alive = true;
+		ph[i].state = NOT_INIT;
+		ph[i].param = param;
 		i++;
 	}
-	return (0);
+	return (ph);
 }
 
-int	join_philo(t_data *data)
+int	join_philo(t_ph *ph, int philo)
 {
 	int		i;
 
 	i = 0;
-	while (i < data->param.nb_philo)
+	while (i < philo)
 	{
-		if (pthread_join(data->philo[i].philosoph, NULL))
+		if (pthread_join(ph[i].philosoph, NULL))
 		{
-			free(data->philo);
+			free(ph);
 			return (1);
 		}
 		i++;
