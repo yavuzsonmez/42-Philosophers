@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/02 19:04:46 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/03 13:09:18 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ typedef struct s_ph
 	t_param		*param;
 	int			i;
 	pthread_t	philosoph;
-	bool		fork;
+	bool		*lfork;
+	bool		*rfork;
 	bool		alive;
 	int			state;
+	long		last_meal;
 }	t_ph;
 
 
@@ -71,6 +73,7 @@ void	*schedule(void *ph);
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
+void		free_data(t_ph *data);
 
 /*	TIMER.C */
 long		get_time(void);

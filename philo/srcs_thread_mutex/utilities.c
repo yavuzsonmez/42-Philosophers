@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 11:05:58 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/03 13:09:02 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		s[i++] = s2[j++];
 	s[i] = '\0';
 	return (s);
+}
+
+void	free_data(t_ph *data)
+{
+	int	i;
+	int	philo;
+
+	i = 0;
+	philo = ph[0].param->nb_philo;
+	while (i < philo)
+	{
+		free(ph[i].rfork);
+		i++;
+	}
+	free(ph);
 }

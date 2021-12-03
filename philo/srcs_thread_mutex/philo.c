@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/02 19:39:42 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/03 13:09:41 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,26 @@ size_t	parameters(char **argv, t_param *param)
 	return (0);
 }
 
-/*
-void	take_rfork(t_data *data, long timer, int i)
+void	forks(t_ph *ph, long timer)
 {
-	pthread_mutex_t	mutex;
-	if (pthread_mutex_init(&mutex, NULL))
-		return ;
-	pthread_mutex_lock(&mutex);
-	data->philo[(i + 1) % data->param.nb_philo].fork = true;
-	printer(timer, data->philo[i].i, FORK);
-	pthread_mutex_unlock(&mutex);
-	pthread_mutex_destroy(&mutex);
+	while(1)
+	{
+		if (*(ph->rfork) == false)
+		{
+			printer(get_time() - timer, ph->i, FORK);
+			*(ph->rfork) = true;
+		}
+		if (*(ph->rfork) == false)
+		{
+			printer(get_time() - timer, ph->i, FORK);
+			*(ph->rfork) = true;
+		}
+		if (*(ph->rfork) == true && *(ph->rfork) == true)
+			break ;
+		ft_sleep(100);
+	}
 }
 
-void	take_lfork(t_data *data, long timer, int i)
-{
-	pthread_mutex_t	mutex;
-	if (pthread_mutex_init(&mutex, NULL))
-		return ;
-	pthread_mutex_lock(&mutex);
-	data->philo[i].fork = true;
-	printer(timer, data->philo[i].i, FORK);
-	pthread_mutex_unlock(&mutex);
-	pthread_mutex_destroy(&mutex);
-}
-*/
 
 void	sleeping(t_ph *ph, long timer)
 {
@@ -69,18 +64,14 @@ void	sleeping(t_ph *ph, long timer)
 
 void	eating(t_ph *ph, long timer)
 {
-	//take_rfork(data, timer, i);
-	//take_lfork(data, timer, i);
-	//if (data->philo[i].fork == true && data->philo[(i + 1) % data->param.nb_philo].fork == true)
-	//{
-	//	printer(timer, data->philo[i].i, EAT);
-	//	ft_sleep(data->param.time_to_eat);
-	//}
-	//data->philo[i].fork = false;
-	//data->philo[(i + 1) % data->param.nb_philo].fork = false;
-	printer(get_time() - timer, ph->i, EAT);
-	ft_sleep(ph->param->time_to_eat);
-
+	if (*(ph->rfork) == true && *(ph->rfork) == true)
+	{
+		printer(get_time() - timer, ph->i, EAT);
+		ph->last_meal = get_time() - timer;
+		ft_sleep(ph->param->time_to_eat);
+		*(ph->rfork) = false;
+		*(ph->rfork) = false;
+	}
 }
 
 void	thinking(t_ph *ph, long timer)
@@ -91,7 +82,12 @@ void	thinking(t_ph *ph, long timer)
 
 void starving(t_ph *ph, long timer)
 {
-	printer(get_time() - timer, ph->i, DIE);
+	timer = get_time() - timer;
+	if (ph->param->time_to_die > timer - ph->last_meal)
+	{
+		printer(timer, ph->i, DIE);
+		ph->alive = false;
+	}
 }
 
 void init_dinner(t_ph *ph, long timer)
@@ -110,10 +106,13 @@ void	*schedule(void *ph)
 	init_dinner(ph, start_time);
 	while (1)
 	{
+		forks(ph, start_time);
 		eating(ph, start_time);
 		sleeping(ph, start_time);
 		thinking(ph, start_time);
 		starving(ph, start_time);
+		//if (fct check if someone died)
+		//	return (NULL);
 	}
 	return (NULL);
 }
@@ -143,6 +142,6 @@ int main(int argc, char **argv)
 		return (1);
 	if (join_philo(ph, param.nb_philo))
 		return (1);
-	//free();
+	free_data(ph);
 	return (0);
 }

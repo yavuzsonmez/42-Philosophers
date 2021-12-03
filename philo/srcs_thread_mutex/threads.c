@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/02 19:05:04 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/03 13:09:57 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,26 @@ t_ph	*create_philo(t_param *param)
 	ph = (t_ph *)malloc(sizeof(t_ph) * param->nb_philo);
 	if (ph == NULL)
 		return (NULL);
+	while(i < param->nb_philo)
+	{
+		ph[i].rfork = (bool *)malloc(sizeof(bool));
+		*(ph[i].rfork) = false;
+		i++;
+	}
+	i = 0;
 	while (i < param->nb_philo)
 	{
 		ph[i].i = i + 1;
+		ph[i].lfork = ph[(i + 1) % param->nb_philo].rfork;
+		ph[i].alive = true;
+		ph[i].state = NOT_INIT;
+		ph[i].param = param;
+		ph[i].last_meal = 0;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
 			free(ph);
 			return (NULL);
 		}
-		ph[i].fork = false;
-		ph[i].alive = true;
-		ph[i].state = NOT_INIT;
-		ph[i].param = param;
 		i++;
 	}
 	return (ph);
@@ -47,7 +55,7 @@ int	join_philo(t_ph *ph, int philo)
 	{
 		if (pthread_join(ph[i].philosoph, NULL))
 		{
-			free(ph);
+			free_data(ph);
 			return (1);
 		}
 		i++;
