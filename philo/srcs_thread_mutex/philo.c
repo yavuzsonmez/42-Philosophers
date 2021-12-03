@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 15:59:27 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 18:05:06 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,20 @@ void	forks(t_ph *ph, long timer)
 {
 	while(1)
 	{
-		if (*(ph->rfork) == false)
+		if (*(ph->rfork) == false && *(ph->lfork) == false)
 		{
-			printer(get_time() - timer, ph->i, FORK);
 			pthread_mutex_lock(ph->rfork_mutex);
 			*(ph->rfork) = true;
-		}
-		if (*(ph->lfork) == false)
-		{
-			printer(get_time() - timer, ph->i, FORK);
+			pthread_mutex_unlock(ph->rfork_mutex);
 			pthread_mutex_lock(ph->lfork_mutex);
 			*(ph->lfork) = true;
+			pthread_mutex_unlock(ph->rfork_mutex);
+			printer(get_time() - timer, ph->i, FORK);
+			printer(get_time() - timer, ph->i, FORK);
+			return ;
 		}
-		if (*(ph->rfork) == true && *(ph->lfork) == true)
-			break ;
-		ft_sleep(100);
 	}
 }
-
 
 void	sleeping(t_ph *ph, long timer)
 {
@@ -66,14 +62,17 @@ void	sleeping(t_ph *ph, long timer)
 
 void	eating(t_ph *ph, long timer)
 {
+	timer = get_time() - timer;
 	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
-		printer(get_time() - timer, ph->i, EAT);
-		ph->last_meal = get_time() - timer;
+		printer(timer, ph->i, EAT);
+		ph->last_meal = timer;
 		ft_sleep(ph->param->time_to_eat);
+		pthread_mutex_lock(ph->rfork_mutex);
 		*(ph->rfork) = false;
-		*(ph->lfork) = false;
 		pthread_mutex_unlock(ph->rfork_mutex);
+		pthread_mutex_lock(ph->lfork_mutex);
+		*(ph->lfork) = false;
 		pthread_mutex_unlock(ph->lfork_mutex);
 	}
 }
@@ -87,10 +86,13 @@ void	thinking(t_ph *ph, long timer)
 void starving(t_ph *ph, long timer)
 {
 	timer = get_time() - timer;
-	if (ph->param->time_to_die > timer - ph->last_meal)
+	if (*(ph->rfork) == false && *(ph->lfork) == false)
 	{
-		printer(timer, ph->i, DIE);
-		ph->alive = false;
+		//if (ph->param->time_to_die > timer - ph->last_meal)
+		//{
+			printer(timer, ph->i, DIE);
+			ph->alive = false;
+		//}
 	}
 }
 
@@ -100,6 +102,20 @@ void init_dinner(t_ph *ph, long timer)
 		eating(ph, timer);
 	else
 		thinking(ph, timer);
+}
+
+int control(t_ph *ph)
+{
+	int	i;
+
+	i = 0;
+	while (i < ph[0].param->nb_philo)
+	{
+		if (ph->data[i].alive == false)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 void	*schedule(void *ph)
@@ -115,8 +131,6 @@ void	*schedule(void *ph)
 		sleeping(ph, start_time);
 		thinking(ph, start_time);
 		starving(ph, start_time);
-		//if (fct check if someone died)
-		//	return (NULL);
 	}
 	return (NULL);
 }

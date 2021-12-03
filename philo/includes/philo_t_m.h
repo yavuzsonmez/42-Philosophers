@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 15:54:10 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 16:37:17 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_param
 
 typedef enum e_state
 {
-	NOT_INIT	=	0,
 	FORK		=	1,
 	EAT			=	2,
 	SLEEP		=	3,
@@ -58,16 +57,16 @@ typedef enum e_state
 
 typedef struct s_ph
 {
-	t_param		*param;
-	int			i;
-	pthread_t	philosoph;
+	t_param			*param;
+	int				i;
+	pthread_t		philosoph;
 	pthread_mutex_t *rfork_mutex;
 	pthread_mutex_t *lfork_mutex;
-	bool		*lfork;
-	bool		*rfork;
-	bool		alive;
-	int			state;
-	long		last_meal;
+	bool			*lfork;
+	bool			*rfork;
+	bool			alive;
+	long			last_meal;
+	struct s_ph		*data;
 }	t_ph;
 
 

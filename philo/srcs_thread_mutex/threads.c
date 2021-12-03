@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 15:57:30 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 16:36:39 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_ph	*create_philo(t_param *param)
 		ph[i].lfork = ph[(i + 1) % param->nb_philo].rfork;
 		ph[i].lfork_mutex = ph[(i + 1) % param->nb_philo].rfork_mutex;
 		ph[i].alive = true;
-		ph[i].state = NOT_INIT;
 		ph[i].param = param;
 		ph[i].last_meal = 0;
+		ph[i].data = ph;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
 			free(ph);
