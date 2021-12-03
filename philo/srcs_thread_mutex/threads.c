@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 13:09:57 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 15:57:30 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ t_ph	*create_philo(t_param *param)
 	int		i;
 
 	i = 0;
-	ph = (t_ph *)malloc(sizeof(t_ph) * param->nb_philo);
+	ph = (t_ph *)malloc(sizeof(t_ph) * (param->nb_philo));
 	if (ph == NULL)
 		return (NULL);
 	while(i < param->nb_philo)
 	{
 		ph[i].rfork = (bool *)malloc(sizeof(bool));
 		*(ph[i].rfork) = false;
+		ph[i].rfork_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+		if (pthread_mutex_init(ph[i].rfork_mutex, NULL) != 0)
+		{
+			free(ph);
+			return (NULL);
+		}
 		i++;
 	}
 	i = 0;
@@ -32,6 +38,7 @@ t_ph	*create_philo(t_param *param)
 	{
 		ph[i].i = i + 1;
 		ph[i].lfork = ph[(i + 1) % param->nb_philo].rfork;
+		ph[i].lfork_mutex = ph[(i + 1) % param->nb_philo].rfork_mutex;
 		ph[i].alive = true;
 		ph[i].state = NOT_INIT;
 		ph[i].param = param;

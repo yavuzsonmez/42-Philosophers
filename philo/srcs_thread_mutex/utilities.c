@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 13:09:02 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 15:55:55 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (s);
 }
 
-void	free_data(t_ph *data)
+void	free_data(t_ph *ph)
 {
 	int	i;
 	int	philo;
@@ -95,6 +95,8 @@ void	free_data(t_ph *data)
 	while (i < philo)
 	{
 		free(ph[i].rfork);
+		pthread_mutex_destroy(ph[i].rfork_mutex);
+		free(ph[i].rfork_mutex);
 		i++;
 	}
 	free(ph);

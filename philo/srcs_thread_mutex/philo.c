@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 13:09:41 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 15:59:27 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ void	forks(t_ph *ph, long timer)
 		if (*(ph->rfork) == false)
 		{
 			printer(get_time() - timer, ph->i, FORK);
+			pthread_mutex_lock(ph->rfork_mutex);
 			*(ph->rfork) = true;
 		}
-		if (*(ph->rfork) == false)
+		if (*(ph->lfork) == false)
 		{
 			printer(get_time() - timer, ph->i, FORK);
-			*(ph->rfork) = true;
+			pthread_mutex_lock(ph->lfork_mutex);
+			*(ph->lfork) = true;
 		}
-		if (*(ph->rfork) == true && *(ph->rfork) == true)
+		if (*(ph->rfork) == true && *(ph->lfork) == true)
 			break ;
 		ft_sleep(100);
 	}
@@ -64,13 +66,15 @@ void	sleeping(t_ph *ph, long timer)
 
 void	eating(t_ph *ph, long timer)
 {
-	if (*(ph->rfork) == true && *(ph->rfork) == true)
+	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
 		printer(get_time() - timer, ph->i, EAT);
 		ph->last_meal = get_time() - timer;
 		ft_sleep(ph->param->time_to_eat);
 		*(ph->rfork) = false;
-		*(ph->rfork) = false;
+		*(ph->lfork) = false;
+		pthread_mutex_unlock(ph->rfork_mutex);
+		pthread_mutex_unlock(ph->lfork_mutex);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 13:09:18 by home             ###   ########.fr       */
+/*   Updated: 2021/12/03 15:54:10 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_ph
 	t_param		*param;
 	int			i;
 	pthread_t	philosoph;
+	pthread_mutex_t *rfork_mutex;
+	pthread_mutex_t *lfork_mutex;
 	bool		*lfork;
 	bool		*rfork;
 	bool		alive;
@@ -73,7 +75,7 @@ void	*schedule(void *ph);
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
-void		free_data(t_ph *data);
+void		free_data(t_ph *ph);
 
 /*	TIMER.C */
 long		get_time(void);
