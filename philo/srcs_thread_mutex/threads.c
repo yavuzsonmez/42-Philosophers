@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 16:36:39 by home             ###   ########.fr       */
+/*   Updated: 2021/12/04 13:38:00 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_ph	*create_philo(t_param *param)
 		ph[i].alive = true;
 		ph[i].param = param;
 		ph[i].last_meal = 0;
+		ph[i].meal = 0;
 		ph[i].data = ph;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
