@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 18:05:06 by home             ###   ########.fr       */
+/*   Updated: 2021/12/04 12:16:45 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	forks(t_ph *ph, long timer)
 			pthread_mutex_lock(ph->rfork_mutex);
 			*(ph->rfork) = true;
 			pthread_mutex_unlock(ph->rfork_mutex);
+			printer(get_time() - timer, ph->i, FORK);
 			pthread_mutex_lock(ph->lfork_mutex);
 			*(ph->lfork) = true;
-			pthread_mutex_unlock(ph->rfork_mutex);
-			printer(get_time() - timer, ph->i, FORK);
+			pthread_mutex_unlock(ph->lfork_mutex);
 			printer(get_time() - timer, ph->i, FORK);
 			return ;
 		}
@@ -86,13 +86,11 @@ void	thinking(t_ph *ph, long timer)
 void starving(t_ph *ph, long timer)
 {
 	timer = get_time() - timer;
-	if (*(ph->rfork) == false && *(ph->lfork) == false)
+	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
-		//if (ph->param->time_to_die > timer - ph->last_meal)
-		//{
-			printer(timer, ph->i, DIE);
-			ph->alive = false;
-		//}
+		//printf("time to die%d, timer %ld, last meal %ld, calcul %ld\n", ph->param->time_to_die, timer, ph->last_meal, timer - ph->last_meal);
+		printer(timer, ph->i, DIE);
+		ph->alive = false;
 	}
 }
 
@@ -127,10 +125,20 @@ void	*schedule(void *ph)
 	while (1)
 	{
 		forks(ph, start_time);
+		if (control(ph))
+			break ;
 		eating(ph, start_time);
+		if (control(ph))
+			break ;
 		sleeping(ph, start_time);
+		if (control(ph))
+			break ;
 		thinking(ph, start_time);
+		if (control(ph))
+			break ;
 		starving(ph, start_time);
+		if (control(ph))
+			break ;
 	}
 	return (NULL);
 }
