@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/04 13:50:59 by home             ###   ########.fr       */
+/*   Updated: 2021/12/04 17:22:52 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int control(t_ph *ph)
 
 int starving(t_ph *ph, long timer)
 {
-	//timer = get_time() - timer;
 	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
 		//printf("time to die%d, timer %ld, last meal %ld, calcul %ld\n", ph->param->time_to_die, timer, ph->last_meal, timer - ph->last_meal);
@@ -73,14 +72,15 @@ int	forks(t_ph *ph, long timer)
 	{
 		if (*(ph->rfork) == false && *(ph->lfork) == false)
 		{
+			timer = get_time() - timer;
 			pthread_mutex_lock(ph->rfork_mutex);
 			*(ph->rfork) = true;
 			pthread_mutex_unlock(ph->rfork_mutex);
-			printer(get_time() - timer, ph->i, FORK);
+			printer(timer, ph->i, FORK);
 			pthread_mutex_lock(ph->lfork_mutex);
 			*(ph->lfork) = true;
 			pthread_mutex_unlock(ph->lfork_mutex);
-			printer(get_time() - timer, ph->i, FORK);
+			printer(timer, ph->i, FORK);
 			return (0);
 		}
 		if (starving(ph, get_time() - timer))
@@ -90,6 +90,8 @@ int	forks(t_ph *ph, long timer)
 
 int	sleeping(t_ph *ph, long timer)
 {
+	if(starving(ph, get_time() - timer))
+		return (1);
 	printer(get_time() - timer, ph->i, SLEEP);
 	ft_sleep(ph->param->time_to_sleep);
 	if(starving(ph, get_time() - timer))
@@ -99,9 +101,9 @@ int	sleeping(t_ph *ph, long timer)
 
 void	eating(t_ph *ph, long timer)
 {
-	timer = get_time() - timer;
 	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
+		timer = get_time() - timer;
 		printer(timer, ph->i, EAT);
 		ph->last_meal = timer;
 		ft_sleep(ph->param->time_to_eat);
@@ -117,10 +119,19 @@ void	eating(t_ph *ph, long timer)
 
 int	thinking(t_ph *ph, long timer)
 {
-	//if (*(ph->rfork) == false || *(ph->lfork) == false)
-	//	return (0);
+	int	i;
+
+	i = 0;
+	if (ph->param->time_to_die < (get_time() - timer - ph->last_meal))
+		return (0);
 	printer(get_time() - timer, ph->i, THINK);
-	ft_sleep(100);
+	while(i < 20)
+	{
+		ft_sleep(5);
+		i++;
+		if(starving(ph, get_time() - timer))
+			return (1);
+	}
 	if(starving(ph, get_time() - timer))
 		return (1);
 	return (0);
