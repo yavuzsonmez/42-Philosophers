@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/04 17:22:52 by home             ###   ########.fr       */
+/*   Updated: 2021/12/05 10:30:41 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int control(t_ph *ph)
 
 int starving(t_ph *ph, long timer)
 {
+	timer = get_time() - timer;
 	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
-		//printf("time to die%d, timer %ld, last meal %ld, calcul %ld\n", ph->param->time_to_die, timer, ph->last_meal, timer - ph->last_meal);
 		printer(timer, ph->i, DIE);
 		ph->alive = false;
 	}
@@ -83,19 +83,13 @@ int	forks(t_ph *ph, long timer)
 			printer(timer, ph->i, FORK);
 			return (0);
 		}
-		if (starving(ph, get_time() - timer))
-			return (1);
 	}
 }
 
 int	sleeping(t_ph *ph, long timer)
 {
-	if(starving(ph, get_time() - timer))
-		return (1);
 	printer(get_time() - timer, ph->i, SLEEP);
 	ft_sleep(ph->param->time_to_sleep);
-	if(starving(ph, get_time() - timer))
-		return (1);
 	return (0);
 }
 
@@ -119,7 +113,7 @@ void	eating(t_ph *ph, long timer)
 
 int	thinking(t_ph *ph, long timer)
 {
-	int	i;
+	/*int	i;
 
 	i = 0;
 	if (ph->param->time_to_die < (get_time() - timer - ph->last_meal))
@@ -132,8 +126,8 @@ int	thinking(t_ph *ph, long timer)
 		if(starving(ph, get_time() - timer))
 			return (1);
 	}
-	if(starving(ph, get_time() - timer))
-		return (1);
+*/
+	printer(get_time() - timer, ph->i, THINK);
 	return (0);
 }
 
@@ -142,18 +136,20 @@ void	*schedule(void *ph)
 	long start_time;
 
 	start_time = get_time();
-	if (((t_ph *)ph)->i % 2 == ODD)
+	if (((t_ph *)ph)->i % 2 == EVEN)
 		thinking(ph, start_time);
 	while (1)
 	{
 		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
 			break ;
-		if(forks(ph, start_time))
+		if (forks(ph, start_time))
 			break ;
 		eating(ph, start_time);
-		if(sleeping(ph, start_time))
+		if (sleeping(ph, start_time))
 			break ;
-		if(thinking(ph, start_time))
+		if (thinking(ph, start_time))
+			break ;
+		if (starving(ph, start_time))
 			break ;
 	}
 	return (NULL);
