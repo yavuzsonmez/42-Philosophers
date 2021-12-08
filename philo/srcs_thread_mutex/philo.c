@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 13:49:01 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 15:24:22 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ size_t	parameters(char **argv, t_param *param)
 	param->time_to_die = ft_atoi_ll(argv[2]);
 	param->time_to_eat = ft_atoi_ll(argv[3]);
 	param->time_to_sleep = ft_atoi_ll(argv[4]);
+	param->start_time = get_time();
 	if (argv[5] != NULL)
 	{
 		param->meals_per_philo = ft_atoi_ll(argv[5]);
@@ -39,27 +40,34 @@ size_t	parameters(char **argv, t_param *param)
 	return (0);
 }
 
-int starving(t_ph *ph, long timer)
+int starving(t_ph *ph)
 {
-	timer = get_time() - timer;
+	long	timer;
+
+	timer = get_time() - ph->param->start_time;
 	if (*(ph->alive) == false)
 		return (1);
 	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
 		printer(timer, ph->i, DIE);
+		//pthread_mutex_lock(ph->die_mutex);
 		*(ph->alive) = false;
+		//pthread_mutex_unlock(ph->die_mutex);
 		return (1);
 	}
 	return (0);
 }
 
-int	forks(t_ph *ph, long timer)
+int	forks(t_ph *ph)
 {
+	long	timer;
+
+	timer = 0;
 	while(1)
 	{
 		if (*(ph->rfork) == false && *(ph->lfork) == false)
 		{
-			timer = get_time() - timer;
+			timer = get_time() - ph->param->start_time;
 			pthread_mutex_lock(ph->rfork_mutex);
 			*(ph->rfork) = true;
 			pthread_mutex_unlock(ph->rfork_mutex);
@@ -70,26 +78,31 @@ int	forks(t_ph *ph, long timer)
 			printer(timer, ph->i, FORK);
 			return (0);
 		}
+		if (starving(ph))
+			return (1);
 	}
+	return (0);
 }
 
-int	sleeping(t_ph *ph, long timer)
+int	sleeping(t_ph *ph)
 {
-	printer(get_time() - timer, ph->i, SLEEP);
-	if(ft_sleep(ph->param->time_to_sleep, ph, timer))
+	printer(get_time() - ph->param->start_time, ph->i, SLEEP);
+	if(ft_sleep(ph->param->time_to_sleep, ph))
 		return (1);
 	return (0);
 }
 
-int	eating(t_ph *ph, long timer)
+int	eating(t_ph *ph)
 {
-	long start_time = timer;
+	long	timer;
+
+	timer = 0;
 	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
-		timer = get_time() - timer;
+		timer = get_time() - ph->param->start_time;
 		ph->last_meal = timer;
 		printer(timer, ph->i, EAT);
-		if(ft_sleep(ph->param->time_to_eat, ph, start_time))
+		if(ft_sleep(ph->param->time_to_eat, ph))
 			return (1);
 		pthread_mutex_lock(ph->rfork_mutex);
 		*(ph->rfork) = false;
@@ -102,9 +115,9 @@ int	eating(t_ph *ph, long timer)
 	return (0);
 }
 
-int	thinking(t_ph *ph, long timer)
+int	thinking(t_ph *ph)
 {
-	printer(get_time() - timer, ph->i, THINK);
+	printer(get_time() - ph->param->start_time, ph->i, THINK);
 	return (0);
 }
 
@@ -114,18 +127,18 @@ void	*schedule(void *ph)
 
 	start_time = get_time();
 	if (((t_ph *)ph)->i % 2 == EVEN)
-		thinking(ph, start_time);
+		thinking(ph);
 	while (1)
 	{
 		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
 			break ;
-		if (forks(ph, start_time))
+		if (forks(ph))
 			break ;
-		if(eating(ph, start_time))
+		if(eating(ph))
 			break ;
-		if (sleeping(ph, start_time))
+		if (sleeping(ph))
 			break ;
-		thinking(ph, start_time);
+		thinking(ph);
 	}
 	return (NULL);
 }
@@ -146,7 +159,7 @@ int main(int argc, char **argv)
 	else if (param.nb_philo == 1)
 	{
 		printer(0, 1, FORK);
-		ft_sleep(param.time_to_die, NULL, 0);
+		ft_sleep(param.time_to_die, NULL);
 		printer(param.time_to_die, 1, DIE);
 		return (0);
 	}

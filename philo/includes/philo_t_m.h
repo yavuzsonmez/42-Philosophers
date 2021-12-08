@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 13:48:32 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 15:18:45 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_param
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	meals_per_philo;
+	long	start_time;
 }	t_param;
 
 typedef enum e_state
@@ -62,6 +63,7 @@ typedef struct s_ph
 	bool			*rfork;
 	pthread_mutex_t *lfork_mutex;
 	bool			*lfork;
+	pthread_mutex_t *die_mutex;
 	pthread_t		philosoph;
 	long			last_meal;
 	int				i;
@@ -79,7 +81,7 @@ void		free_data(t_ph *ph);
 
 /*	TIMER.C */
 long		get_time(void);
-int	ft_sleep(long time, t_ph *ph, long start_time);
+int	ft_sleep(long time, t_ph *ph);
 
 /*	THREADS.C */
 t_ph	*	create_philo(t_param *param);
@@ -92,6 +94,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int		printer(long timer, int philo, int state);
 
 
-int starving(t_ph *ph, long timer);
+int starving(t_ph *ph);
 
 #endif
