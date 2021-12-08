@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/05 10:30:41 by home             ###   ########.fr       */
+/*   Updated: 2021/12/08 10:52:33 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	eating(t_ph *ph, long timer)
 	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
 		timer = get_time() - timer;
-		printer(timer, ph->i, EAT);
 		ph->last_meal = timer;
+		printer(timer, ph->i, EAT);
 		ft_sleep(ph->param->time_to_eat);
 		pthread_mutex_lock(ph->rfork_mutex);
 		*(ph->rfork) = false;
@@ -113,20 +113,6 @@ void	eating(t_ph *ph, long timer)
 
 int	thinking(t_ph *ph, long timer)
 {
-	/*int	i;
-
-	i = 0;
-	if (ph->param->time_to_die < (get_time() - timer - ph->last_meal))
-		return (0);
-	printer(get_time() - timer, ph->i, THINK);
-	while(i < 20)
-	{
-		ft_sleep(5);
-		i++;
-		if(starving(ph, get_time() - timer))
-			return (1);
-	}
-*/
 	printer(get_time() - timer, ph->i, THINK);
 	return (0);
 }
