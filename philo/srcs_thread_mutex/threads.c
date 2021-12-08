@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 17:52:15 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 21:06:49 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,9 @@ t_ph	*create_philo(t_param *param)
 	t_ph	*ph;
 	int		i;
 	bool	*alive;
-	pthread_mutex_t die_mutex;
 
 	i = 0;
 	ph = (t_ph *)malloc(sizeof(t_ph) * (param->nb_philo));
-	if (pthread_mutex_init(&die_mutex, NULL) != 0)
-	{
-		free(ph);
-		return (NULL);
-	}
 	alive = (bool *)malloc(sizeof(bool));
 	*alive = true;
 	if (ph == NULL)
@@ -49,7 +43,6 @@ t_ph	*create_philo(t_param *param)
 		ph[i].param = param;
 		ph[i].last_meal = 0;
 		ph[i].meal = 0;
-		ph[i].die_mutex = &die_mutex;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
 			free(ph);

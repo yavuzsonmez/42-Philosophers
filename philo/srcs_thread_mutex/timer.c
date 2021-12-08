@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 18:21:06 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 20:10:30 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_sleep(long time, t_ph *ph)
 			if (starving(ph))
 				return (1) ;
 		}
-		usleep(5);
+		usleep(10);
 	}
 	return (0);
 }

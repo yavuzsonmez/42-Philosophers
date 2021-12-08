@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 18:19:52 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 21:09:40 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,10 @@ int starving(t_ph *ph)
 	timer = get_time() - ph->param->start_time;
 	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
-		//pthread_mutex_lock(ph->die_mutex);
 		printer(timer, ph->i, DIE);
 		*(ph->alive) = false;
-		//pthread_mutex_unlock(ph->die_mutex);
 		return (1);
 	}
-	return (0);
-}
-
-int	forks(t_ph *ph)
-{
-	if (*(ph->alive) == false)
-		return (1);
-	if (pthread_mutex_lock(ph->rfork) == 0)
-		printer(get_time() - ph->param->start_time, ph->i, FORK);
-	if (pthread_mutex_lock(ph->lfork) == 0)
-		printer(get_time() - ph->param->start_time, ph->i, FORK);
 	return (0);
 }
 
@@ -85,15 +72,16 @@ int	eating(t_ph *ph)
 
 	if (*(ph->alive) == false)
 		return (1);
+
+	pthread_mutex_lock(ph->rfork);
+	pthread_mutex_lock(ph->lfork);
 	timer = get_time() - ph->param->start_time;
+	printer(timer, ph->i, FORK);
+	printer(timer, ph->i, FORK);
 	ph->last_meal = timer;
 	printer(timer, ph->i, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
-	{
-		pthread_mutex_unlock(ph->rfork);
-		pthread_mutex_unlock(ph->lfork);
 		return (1);
-	}
 	pthread_mutex_unlock(ph->rfork);
 	pthread_mutex_unlock(ph->lfork);
 	ph->meal++;
@@ -106,7 +94,7 @@ int	thinking(t_ph *ph, int i)
 		return (1);
 	printer(get_time() - ph->param->start_time, ph->i, THINK);
 	if (i == 1)
-		ft_sleep(300, ph);
+		ft_sleep(ph->param->time_to_eat, ph);
 	return (0);
 }
 
@@ -120,8 +108,6 @@ void	*schedule(void *ph)
 	while (1)
 	{
 		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
-			break ;
-		if (forks(ph))
 			break ;
 		if(eating(ph))
 			break ;

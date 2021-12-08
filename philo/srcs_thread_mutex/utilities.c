@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 17:53:43 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 21:10:10 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ void	free_data(t_ph *ph)
 
 	i = 0;
 	philo = ph[0].param->nb_philo;
-	pthread_mutex_destroy(ph->die_mutex);
-	//free(ph->die_mutex);
 	while (i < philo)
 	{
 		pthread_mutex_destroy(ph[i].rfork);
