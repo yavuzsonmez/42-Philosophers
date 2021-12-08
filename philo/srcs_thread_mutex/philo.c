@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 10:52:33 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 13:49:01 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,17 @@ size_t	parameters(char **argv, t_param *param)
 	return (0);
 }
 
-int control(t_ph *ph)
-{
-	int	i;
-
-	i = 0;
-	while (i < ph[0].param->nb_philo)
-	{
-		if (ph->data[i].alive == false)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int starving(t_ph *ph, long timer)
 {
 	timer = get_time() - timer;
+	if (*(ph->alive) == false)
+		return (1);
 	if (ph->param->time_to_die < timer - ph->last_meal)
 	{
 		printer(timer, ph->i, DIE);
-		ph->alive = false;
-	}
-	if (control(ph))
+		*(ph->alive) = false;
 		return (1);
+	}
 	return (0);
 }
 
@@ -89,18 +76,21 @@ int	forks(t_ph *ph, long timer)
 int	sleeping(t_ph *ph, long timer)
 {
 	printer(get_time() - timer, ph->i, SLEEP);
-	ft_sleep(ph->param->time_to_sleep);
+	if(ft_sleep(ph->param->time_to_sleep, ph, timer))
+		return (1);
 	return (0);
 }
 
-void	eating(t_ph *ph, long timer)
+int	eating(t_ph *ph, long timer)
 {
+	long start_time = timer;
 	if (*(ph->rfork) == true && *(ph->lfork) == true)
 	{
 		timer = get_time() - timer;
 		ph->last_meal = timer;
 		printer(timer, ph->i, EAT);
-		ft_sleep(ph->param->time_to_eat);
+		if(ft_sleep(ph->param->time_to_eat, ph, start_time))
+			return (1);
 		pthread_mutex_lock(ph->rfork_mutex);
 		*(ph->rfork) = false;
 		pthread_mutex_unlock(ph->rfork_mutex);
@@ -109,6 +99,7 @@ void	eating(t_ph *ph, long timer)
 		pthread_mutex_unlock(ph->lfork_mutex);
 		ph->meal++;
 	}
+	return (0);
 }
 
 int	thinking(t_ph *ph, long timer)
@@ -130,13 +121,11 @@ void	*schedule(void *ph)
 			break ;
 		if (forks(ph, start_time))
 			break ;
-		eating(ph, start_time);
+		if(eating(ph, start_time))
+			break ;
 		if (sleeping(ph, start_time))
 			break ;
-		if (thinking(ph, start_time))
-			break ;
-		if (starving(ph, start_time))
-			break ;
+		thinking(ph, start_time);
 	}
 	return (NULL);
 }
@@ -157,7 +146,7 @@ int main(int argc, char **argv)
 	else if (param.nb_philo == 1)
 	{
 		printer(0, 1, FORK);
-		ft_sleep(param.time_to_die);
+		ft_sleep(param.time_to_die, NULL, 0);
 		printer(param.time_to_die, 1, DIE);
 		return (0);
 	}

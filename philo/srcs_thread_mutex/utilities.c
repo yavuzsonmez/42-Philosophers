@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/03 15:55:55 by home             ###   ########.fr       */
+/*   Updated: 2021/12/08 13:14:11 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	free_data(t_ph *ph)
 	{
 		free(ph[i].rfork);
 		pthread_mutex_destroy(ph[i].rfork_mutex);
-		free(ph[i].rfork_mutex);
+		free(ph[i].rfork_mutex);/*?*/
 		i++;
 	}
 	free(ph);

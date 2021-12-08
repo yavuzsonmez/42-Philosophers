@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/04 13:38:09 by home             ###   ########.fr       */
+/*   Updated: 2021/12/08 13:48:32 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ typedef struct s_ph
 	long			last_meal;
 	int				i;
 	int				meal;
-	bool			alive;
-	struct s_ph		*data;
+	bool			*alive;
+	//struct s_ph		*data;
 }	t_ph;
 
 
@@ -79,7 +79,7 @@ void		free_data(t_ph *ph);
 
 /*	TIMER.C */
 long		get_time(void);
-void		ft_sleep(long time);
+int	ft_sleep(long time, t_ph *ph, long start_time);
 
 /*	THREADS.C */
 t_ph	*	create_philo(t_param *param);
@@ -90,5 +90,8 @@ size_t	ft_strlen(const char *s);
 char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		printer(long timer, int philo, int state);
+
+
+int starving(t_ph *ph, long timer);
 
 #endif

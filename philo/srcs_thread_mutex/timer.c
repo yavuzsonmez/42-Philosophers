@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 11:05:55 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/08 14:02:05 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,19 @@ long    get_time(void)
 *	1-2 milliseconds each loop in our case
 */
 
-void	ft_sleep(long time)
+int	ft_sleep(long time, t_ph *ph, long start_time)
 {
-	long	start_time;
-	start_time = get_time();
+	long	sleep_start;
 
-	while (start_time + time > get_time())
+	sleep_start = get_time();
+	while (sleep_start + time > get_time())
 	{
-			usleep(100);
+		if (ph != NULL && start_time > 0)
+		{
+			if(starving(ph, start_time))
+				return (1) ;
+		}
+		usleep(5);
 	}
-	return ;
+	return (0);
 }

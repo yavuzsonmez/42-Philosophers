@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/04 13:38:00 by home             ###   ########.fr       */
+/*   Updated: 2021/12/08 13:13:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ t_ph	*create_philo(t_param *param)
 {
 	t_ph	*ph;
 	int		i;
+	bool	*alive;
 
 	i = 0;
 	ph = (t_ph *)malloc(sizeof(t_ph) * (param->nb_philo));
+	alive = (bool *)malloc(sizeof(bool));
+	*alive = true;
 	if (ph == NULL)
 		return (NULL);
 	while(i < param->nb_philo)
@@ -39,11 +42,11 @@ t_ph	*create_philo(t_param *param)
 		ph[i].i = i + 1;
 		ph[i].lfork = ph[(i + 1) % param->nb_philo].rfork;
 		ph[i].lfork_mutex = ph[(i + 1) % param->nb_philo].rfork_mutex;
-		ph[i].alive = true;
+		ph[i].alive = alive;
 		ph[i].param = param;
 		ph[i].last_meal = 0;
 		ph[i].meal = 0;
-		ph[i].data = ph;
+		//ph[i].data = ph;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 		{
 			free(ph);
