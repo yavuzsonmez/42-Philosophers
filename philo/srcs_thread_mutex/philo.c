@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 21:09:40 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/09 18:49:32 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,10 @@ size_t	parameters(char **argv, t_param *param)
 	return (0);
 }
 
-int starving(t_ph *ph)
-{
-	long	timer;
-
-	if (*(ph->alive) == false)
-		return (1);
-	timer = get_time() - ph->param->start_time;
-	if (ph->param->time_to_die < timer - ph->last_meal)
-	{
-		printer(timer, ph->i, DIE);
-		*(ph->alive) = false;
-		return (1);
-	}
-	return (0);
-}
 
 int	sleeping(t_ph *ph)
 {
-	if (*(ph->alive) == false)
-		return (1);
-	printer(get_time() - ph->param->start_time, ph->i, SLEEP);
+	printer(ph, SLEEP);
 	if (ft_sleep(ph->param->time_to_sleep, ph))
 		return (1);
 	return (0);
@@ -70,50 +53,53 @@ int	eating(t_ph *ph)
 {
 	long	timer;
 
-	if (*(ph->alive) == false)
-		return (1);
-
-	pthread_mutex_lock(ph->rfork);
 	pthread_mutex_lock(ph->lfork);
+	printer(ph, FORK);
+	pthread_mutex_lock(ph->rfork);
 	timer = get_time() - ph->param->start_time;
-	printer(timer, ph->i, FORK);
-	printer(timer, ph->i, FORK);
+	printer(ph, FORK);
 	ph->last_meal = timer;
-	printer(timer, ph->i, EAT);
+	printer(ph, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
+	{
+		pthread_mutex_unlock(ph->rfork);
+		pthread_mutex_unlock(ph->lfork);
 		return (1);
+	}
 	pthread_mutex_unlock(ph->rfork);
 	pthread_mutex_unlock(ph->lfork);
 	ph->meal++;
 	return (0);
 }
 
-int	thinking(t_ph *ph, int i)
+void	thinking(t_ph *ph)
 {
-	if (*(ph->alive) == false)
-		return (1);
-	printer(get_time() - ph->param->start_time, ph->i, THINK);
-	if (i == 1)
-		ft_sleep(ph->param->time_to_eat, ph);
-	return (0);
+	printer(ph, THINK);
+	//if (ph->meal == 0)
+	//	ft_sleep(ph->param->time_to_eat, ph);
 }
 
 void	*schedule(void *ph)
 {
-	long start_time;
-
-	start_time = get_time();
+	if (ph == NULL || ((t_ph *)ph)->param->nb_philo == 1)
+		return (NULL);
 	if (((t_ph *)ph)->i % 2 == ODD)
-		thinking(ph, 1);
+		thinking(ph);
 	while (1)
 	{
 		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
 			break ;
-		if(eating(ph))
+		if (eating(ph))
+		{
+			pthread_mutex_unlock(((t_ph *)ph)->die);
 			break ;
+		}
 		if (sleeping(ph))
+		{
+			pthread_mutex_unlock(((t_ph *)ph)->die);
 			break ;
-		thinking(ph, 0);
+		}
+		thinking(ph);
 	}
 	return (NULL);
 }
@@ -131,18 +117,17 @@ int main(int argc, char **argv)
 		return (1);
 	if (param.nb_philo == 0)
 		return (0);
-	else if (param.nb_philo == 1)
-	{
-		printer(0, 1, FORK);
-		ft_sleep(param.time_to_die, NULL);
-		printer(param.time_to_die, 1, DIE);
-		return (0);
-	}
 	ph = create_philo(&param);
 	if (ph == NULL)
 		return (1);
+	if (param.nb_philo == 1)
+	{
+		printer(ph, FORK);
+		ft_sleep(param.time_to_die, ph);
+		printer(ph, DIE);
+	}
 	if (join_philo(ph, param.nb_philo))
 		return (1);
-	free_data(ph);
+	//free_data(ph);
 	return (0);
 }

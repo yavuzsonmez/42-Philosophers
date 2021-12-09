@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 20:35:36 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/09 18:27:18 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_t_m.h"
+
+/*	Return string length */
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
 
 static void	putnbr_buff(int n, char **buff)
 {
@@ -46,16 +60,16 @@ static void	putstr_buff(char *s, char **buff)
 	}
 }
 
-int	printer(long timer, int philo, int state)
+int	printer(t_ph *ph, int state)
 {
 	char	*ptr;
 	char	buff[128];
 	int		len;
 
 	ptr = buff;
-	putnbr_buff(timer, &ptr);
+	putnbr_buff(get_time() - ph->param->start_time, &ptr);
 	putstr_buff("\t", &ptr);
-	putnbr_buff(philo, &ptr);
+	putnbr_buff(ph->i, &ptr);
 	if (state == FORK)
 		putstr_buff("\thas taken a fork\n", &ptr);
 	else if (state == EAT)

@@ -6,7 +6,7 @@
 #    By: home <home@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/12/09 19:18:19 by home             ###   ########.fr        #
+#    Updated: 2021/12/09 19:18:36 by home             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS			=		-Wall -Wextra -Werror -g -fsanitize=thread
 
 $(NAME)			:		$(OBJS)
 						@gcc $(CFLAGS) $(OBJS) -lpthread -o $(NAME)
-						@echo "$(Cyan)Philosopher with Threads and Mutexes has been created$(Set_Color)"
+						@echo "$(Cyan)Philosopher with Processes and Semaphores has been created$(Set_Color)"
 
 clean			:
 						@rm -f $(OBJS)
@@ -45,10 +45,12 @@ clean			:
 
 fclean			:		clean
 						@rm -f $(NAME)
-						@echo "$(Red)Philo with Threads and Mutexes has been removed$(Set_Color)"
+						@echo "$(Red)Philo with Processes and Semaphores has been removed$(Set_Color)"
 
 all				:		$(NAME)
 
 re				:		fclean all
+
+bonus			:		all
 
 .PHONY			:		clean fclean all re bonus

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/08 21:04:57 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/09 17:58:28 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ typedef struct s_ph
 	pthread_mutex_t *rfork;
 	pthread_mutex_t *lfork;
 	pthread_t		philosoph;
+	pthread_mutex_t *die;
 	long			last_meal;
 	int				i;
 	int				meal;
 	bool			*alive;
+	struct s_ph		*arr;
 }	t_ph;
 
 
@@ -77,7 +79,7 @@ void		free_data(t_ph *ph);
 
 /*	TIMER.C */
 long		get_time(void);
-int	ft_sleep(long time, t_ph *ph);
+int		ft_sleep(long time, t_ph *ph);
 
 /*	THREADS.C */
 t_ph	*	create_philo(t_param *param);
@@ -85,11 +87,9 @@ int			join_philo(t_ph *ph, int philo);
 
 /*	PRINTER.C */
 size_t	ft_strlen(const char *s);
-char	*ft_itoa(int n);
-char	*ft_strjoin(char const *s1, char const *s2);
-int		printer(long timer, int philo, int state);
+int		printer(t_ph *ph, int state);
 
 
-int starving(t_ph *ph);
+void starving(t_ph *ph);
 
 #endif
