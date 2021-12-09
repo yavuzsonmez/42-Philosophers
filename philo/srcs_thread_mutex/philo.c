@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 18:49:32 by home             ###   ########.fr       */
+/*   Updated: 2021/12/09 19:32:08 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	eating(t_ph *ph)
 void	thinking(t_ph *ph)
 {
 	printer(ph, THINK);
-	//if (ph->meal == 0)
-	//	ft_sleep(ph->param->time_to_eat, ph);
 }
 
 void	*schedule(void *ph)
@@ -90,15 +88,9 @@ void	*schedule(void *ph)
 		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
 			break ;
 		if (eating(ph))
-		{
-			pthread_mutex_unlock(((t_ph *)ph)->die);
 			break ;
-		}
 		if (sleeping(ph))
-		{
-			pthread_mutex_unlock(((t_ph *)ph)->die);
 			break ;
-		}
 		thinking(ph);
 	}
 	return (NULL);

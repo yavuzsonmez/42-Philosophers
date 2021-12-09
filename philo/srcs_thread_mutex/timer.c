@@ -6,7 +6,7 @@
 /*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 18:58:12 by home             ###   ########.fr       */
+/*   Updated: 2021/12/09 19:32:42 by home             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_sleep(long s_time, t_ph *ph)
 	current_time = sleep_start;
 	while (sleep_start + s_time > current_time)
 	{
-		pthread_mutex_lock(ph->die);
 		if(*(ph->alive) == false)
 		{
 			return (1);
@@ -56,7 +55,7 @@ int	ft_sleep(long s_time, t_ph *ph)
 			*(ph->alive) = false;
 			return (1);
 		}
-		usleep(1000);
+		usleep(100);
 		current_time = get_time();
 	}
 	return (0);
