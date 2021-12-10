@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 19:32:08 by home             ###   ########.fr       */
+/*   Updated: 2021/12/10 18:27:29 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ size_t	parameters(char **argv, t_param *param)
 
 int	sleeping(t_ph *ph)
 {
-	printer(ph, SLEEP);
+	if (*(ph->alive) == true)
+		printer(ph, SLEEP);
 	if (ft_sleep(ph->param->time_to_sleep, ph))
 		return (1);
 	return (0);
@@ -54,12 +55,15 @@ int	eating(t_ph *ph)
 	long	timer;
 
 	pthread_mutex_lock(ph->lfork);
-	printer(ph, FORK);
+	if (*(ph->alive) == true)
+		printer(ph, FORK);
 	pthread_mutex_lock(ph->rfork);
 	timer = get_time() - ph->param->start_time;
-	printer(ph, FORK);
+	if (*(ph->alive) == true)
+		printer(ph, FORK);
 	ph->last_meal = timer;
-	printer(ph, EAT);
+	if (*(ph->alive) == true)
+		printer(ph, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
 	{
 		pthread_mutex_unlock(ph->rfork);
@@ -74,7 +78,10 @@ int	eating(t_ph *ph)
 
 void	thinking(t_ph *ph)
 {
-	printer(ph, THINK);
+	if (*(ph->alive) == true)
+		printer(ph, THINK);
+	if (ph->meal == 0)
+		ft_sleep(100);/*not sure*/
 }
 
 void	*schedule(void *ph)
