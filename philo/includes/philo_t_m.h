@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 14:15:42 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:11:56 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define PHILO_T_M_H
 
-/*	Philosopher with Thread and Mutexes */
+/*	Philosopher with Threads and Mutexes */
 
 /*
 *	INTEGER

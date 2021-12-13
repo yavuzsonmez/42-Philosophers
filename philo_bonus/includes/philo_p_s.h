@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/11/02 11:03:06 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:12:35 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 # define PHILO_P_S_H
 
 
-/*	Header and Srcs with _P_S because :
-*		Philosopher with Processes and Semaphore
-*/
+/*	Header and Srcs with Processes and Semaphores */
 
 /*
 *	INTEGER
@@ -34,5 +32,56 @@
 # include	<signal.h>
 # include	<pthread.h>
 # include	<stdbool.h>
+
+# define EVEN	0
+# define ODD	1
+
+typedef struct s_param
+{
+	int		nb_philo;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	int		meals_per_philo;
+	long	start_time;
+}	t_param;
+
+typedef enum e_state
+{
+	FORK	=	1,
+	EAT		=	2,
+	SLEEP	=	3,
+	THINK	=	4,
+	DIE		=	5,
+}	t_state;
+
+typedef struct s_ph
+{
+	t_param			*param;
+	pthread_t		philosoph;
+	long			last_meal;
+	int				i;
+	int				meal;
+	bool			*alive;
+}	t_ph;
+
+/*	PHILO.C */
+void		*schedule(void *ph);
+
+/*	THREADS.C */
+t_ph		*create_philo(t_param *param);
+int			join_philo(t_ph *ph, int philo);
+
+/*	TIMER.C */
+long		get_time(void);
+int			ft_sleep(long time, t_ph *ph);
+
+/*	PRINTER.C */
+size_t		ft_strlen(const char *s);
+int			printer(t_ph *ph, int state);
+
+/*	UTILITIES.C */
+long long	ft_atoi_ll(char *str);
+int			free_data(t_ph *ph);
 
 #endif
