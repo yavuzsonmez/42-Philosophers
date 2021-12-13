@@ -6,7 +6,7 @@
 #    By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/12/10 13:34:37 by ysonmez          ###   ########.fr        #
+#    Updated: 2021/12/13 12:19:46 by ysonmez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,12 @@ White			=		\033[0;37m					# White
 
 NAME			=		philo
 
-SRCS			=		srcs_thread_mutex/philo.c \
+SRCS			=		srcs_thread_mutex/main.c \
+						srcs_thread_mutex/philo.c \
 						srcs_thread_mutex/threads.c \
-						srcs_thread_mutex/utilities.c \
 						srcs_thread_mutex/timer.c \
 						srcs_thread_mutex/printer.c \
+						srcs_thread_mutex/utilities.c \
 
 OBJS			=		$(SRCS:.c=.o)
 

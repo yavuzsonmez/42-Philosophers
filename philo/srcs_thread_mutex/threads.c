@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 18:44:35 by home             ###   ########.fr       */
+/*   Updated: 2021/12/13 12:29:03 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_t_m.h"
+
+/*	Create the threadss and initialise their own data */
 
 t_ph	*create_philo(t_param *param)
 {
@@ -24,9 +26,7 @@ t_ph	*create_philo(t_param *param)
 	if (ph == NULL || alive == NULL)
 		return (NULL);
 	*alive = true;
-	ph[0].die = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(ph[0].die, NULL);
-	while(i < param->nb_philo)
+	while (i < param->nb_philo)
 	{
 		ph[i].rfork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 		pthread_mutex_init(ph[i].rfork, NULL);
@@ -41,17 +41,14 @@ t_ph	*create_philo(t_param *param)
 		ph[i].param = param;
 		ph[i].last_meal = 0;
 		ph[i].meal = 0;
-		ph[i].die = ph[0].die;
-		ph[i].arr = &ph[0];
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
-		{
-			//free(ph);
 			return (NULL);
-		}
 		i++;
 	}
 	return (ph);
 }
+
+/*	Join threads at the end of the routine */
 
 int	join_philo(t_ph *ph, int philo)
 {
@@ -61,12 +58,7 @@ int	join_philo(t_ph *ph, int philo)
 	while (i < philo)
 	{
 		if (pthread_join(ph[i].philosoph, NULL))
-		{
-			//free_data(ph);
 			return (1);
-		}
-		if (i == 0)
-			pthread_mutex_destroy(ph[i].die);
 		pthread_mutex_destroy(ph[i].rfork);
 		i++;
 	}

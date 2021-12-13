@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 19:32:42 by home             ###   ########.fr       */
+/*   Updated: 2021/12/13 11:56:53 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ long	get_time(void)
 	return (milliseconds);
 }
 
-/*	Using usleep directly can introduce significant delays because
+/*	- Using usleep directly can introduce significant delays because
 *	`man usleep` says that `usleep` will sleep at least n milliseconds
 *		Why ?
 *				"The sleep may be lengthened slightly by any system activity
@@ -34,6 +34,8 @@ long	get_time(void)
 *
 *	This function fix that and introduce not more than
 *	1-2 milliseconds each loop in our case
+*
+*	- Also check during sleep if a philo die
 */
 
 int	ft_sleep(long s_time, t_ph *ph)

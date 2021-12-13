@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 19:24:25 by home             ###   ########.fr       */
+/*   Updated: 2021/12/13 12:32:20 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ long long	ft_atoi_ll(char *str)
 	return (result);
 }
 
+/*	Free allocated memory */
 
 void	free_data(t_ph *ph)
 {
@@ -49,12 +50,14 @@ void	free_data(t_ph *ph)
 
 	i = 0;
 	philo = ph[0].param->nb_philo;
-	pthread_mutex_destroy(ph->die);
 	while (i < philo)
 	{
-		pthread_mutex_destroy(ph[i].rfork);
-		//free(ph[i].rfork);
+		if (ph[i].rfork != NULL)
+			free(ph[i].rfork);
 		i++;
 	}
-	free(ph);
+	if(ph->alive != NULL)
+		free(ph->alive);
+	if (ph != NULL)
+		free(ph);
 }

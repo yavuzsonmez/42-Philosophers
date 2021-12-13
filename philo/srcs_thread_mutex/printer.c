@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: home <home@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/09 18:27:18 by home             ###   ########.fr       */
+/*   Updated: 2021/12/13 12:01:07 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
+/*	Buffer version of putnbr */
+
 static void	putnbr_buff(int n, char **buff)
 {
 	unsigned int	number;
@@ -44,6 +46,8 @@ static void	putnbr_buff(int n, char **buff)
 	*(*buff)++ = (number % 10) + 48;
 }
 
+/*	Buffer version of putstr */
+
 static void	putstr_buff(char *s, char **buff)
 {
 	int	i;
@@ -59,6 +63,12 @@ static void	putstr_buff(char *s, char **buff)
 		*(*buff) = '\0';
 	}
 }
+
+/*	Fct which print each state of the philosophers
+*		2 steps :
+*					- Creation de buffer with the string we want to print
+*					- Printing with one write only to save syscall and performance
+*/
 
 int	printer(t_ph *ph, int state)
 {
