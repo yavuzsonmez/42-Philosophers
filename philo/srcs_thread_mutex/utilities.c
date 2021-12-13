@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 12:32:20 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 14:14:26 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ long long	ft_atoi_ll(char *str)
 
 /*	Free allocated memory */
 
-void	free_data(t_ph *ph)
+int	free_data(t_ph *ph)
 {
 	int	i;
 	int	philo;
@@ -56,8 +56,9 @@ void	free_data(t_ph *ph)
 			free(ph[i].rfork);
 		i++;
 	}
-	if(ph->alive != NULL)
+	if (ph->alive != NULL)
 		free(ph->alive);
 	if (ph != NULL)
 		free(ph);
+	return (0);
 }

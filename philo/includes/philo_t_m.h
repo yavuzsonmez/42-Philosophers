@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 12:15:41 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 14:15:42 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_ph
 	t_param			*param;
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	*lfork;
+	pthread_mutex_t	*print;
 	pthread_t		philosoph;
 	long			last_meal;
 	int				i;
@@ -83,6 +84,6 @@ int			printer(t_ph *ph, int state);
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
-void		free_data(t_ph *ph);
+int			free_data(t_ph *ph);
 
 #endif

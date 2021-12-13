@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 11:56:53 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 14:14:11 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ int	ft_sleep(long s_time, t_ph *ph)
 	current_time = sleep_start;
 	while (sleep_start + s_time > current_time)
 	{
-		if(*(ph->alive) == false)
+		if (*(ph->alive) == false)
 		{
 			return (1);
 		}
-		if (ph->param->time_to_die < (current_time - ph->param->start_time - ph->last_meal))
+		if (ph->param->time_to_die < (current_time - ph->param->start_time
+				- ph->last_meal))
 		{
 			printer(ph, DIE);
 			*(ph->alive) = false;
@@ -62,4 +63,3 @@ int	ft_sleep(long s_time, t_ph *ph)
 	}
 	return (0);
 }
-

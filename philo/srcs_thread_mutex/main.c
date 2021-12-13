@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 12:29:56 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 13:20:20 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ size_t	parameters(char **argv, t_param *param)
 
 /*	Philosophers with THREADS & MUTEX */
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_param		param;
 	t_ph		*ph;
@@ -54,22 +54,16 @@ int main(int argc, char **argv)
 	if (param.nb_philo == 0)
 		return (0);
 	ph = create_philo(&param);
-	if (ph == NULL)
-	{
-		free_data(ph);
+	if (ph == NULL && free_data(ph) == 0)
 		return (1);
-	}
 	if (param.nb_philo == 1)
 	{
 		printer(ph, FORK);
 		ft_sleep(param.time_to_die, ph);
 		printer(ph, DIE);
 	}
-	if (join_philo(ph, param.nb_philo))
-	{
-		free_data(ph);
+	if (join_philo(ph, param.nb_philo) && free_data(ph) == 0)
 		return (1);
-	}
 	free_data(ph);
 	return (0);
 }

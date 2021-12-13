@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 12:01:07 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/13 13:18:06 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	printer(t_ph *ph, int state)
 	else if (state == DIE)
 		putstr_buff("\tdied\n", &ptr);
 	len = ft_strlen(buff);
+	pthread_mutex_lock(ph->print);
 	write(1, buff, len);
+	pthread_mutex_unlock(ph->print);
 	return (0);
 }
