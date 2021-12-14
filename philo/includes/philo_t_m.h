@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:11:56 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/14 09:56:41 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_ph
 	pthread_mutex_t	*rfork;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*print;
+	pthread_mutex_t	*end;
 	pthread_t		philosoph;
 	long			last_meal;
 	int				i;

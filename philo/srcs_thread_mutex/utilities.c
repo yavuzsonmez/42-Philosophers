@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 14:14:26 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/14 10:35:49 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ int	free_data(t_ph *ph)
 	}
 	if (ph->alive != NULL)
 		free(ph->alive);
+	if (ph->print != NULL)
+		free(ph->print);
+	if (ph->end != NULL)
+		free(ph->end);
 	if (ph != NULL)
 		free(ph);
 	return (0);

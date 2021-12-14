@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 14:16:30 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/14 13:49:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ static int	fill_philo(t_ph *ph, t_param *param)
 		ph[i].i = i + 1;
 		ph[i].lfork = ph[(i + 1) % param->nb_philo].rfork;
 		ph[i].alive = ph[0].alive;
+		ph[i].print = ph[0].print;
+		ph[i].end = ph[0].end;
 		ph[i].param = param;
 		ph[i].last_meal = 0;
 		ph[i].meal = 0;
-		ph[i].print = ph[0].print;
 		if (pthread_create(&ph[i].philosoph, NULL, &schedule, (void *)&ph[i]))
 			return (1);
 		i++;
@@ -58,12 +59,17 @@ t_ph	*create_philo(t_param *param)
 	t_ph	*ph;
 
 	ph = (t_ph *)malloc(sizeof(t_ph) * (param->nb_philo));
+	if (ph == NULL)
+		return (NULL);
 	ph->alive = (bool *)malloc(sizeof(bool));
 	ph->print = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	if (ph == NULL || ph->alive == NULL || ph->print == NULL)
+	ph->end = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	if (ph->alive == NULL || ph->print == NULL || ph->end == NULL)
 		return (NULL);
 	*(ph->alive) = true;
 	if (pthread_mutex_init(ph->print, NULL))
+		return (NULL);
+	if (pthread_mutex_init(ph->end, NULL))
 		return (NULL);
 	if (fill_philo(ph, param))
 		return (NULL);
@@ -84,5 +90,8 @@ int	join_philo(t_ph *ph, int philo)
 		pthread_mutex_destroy(ph[i].rfork);
 		i++;
 	}
+	pthread_mutex_destroy(ph[0].print);
+	pthread_mutex_destroy(ph[0].end);
+	pthread_mutex_destroy(ph[0].alive);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 14:14:11 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/14 10:24:43 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int	ft_sleep(long s_time, t_ph *ph)
 		if (ph->param->time_to_die < (current_time - ph->param->start_time
 				- ph->last_meal))
 		{
+			pthread_mutex_lock(ph->end);
 			printer(ph, DIE);
 			*(ph->alive) = false;
+			pthread_mutex_unlock(ph->end);
 			return (1);
 		}
 		usleep(100);

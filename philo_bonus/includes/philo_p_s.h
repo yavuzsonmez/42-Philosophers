@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:12:35 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/14 13:52:16 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ typedef enum e_state
 typedef struct s_ph
 {
 	t_param			*param;
-	pthread_t		philosoph;
+	pid_t			philosoph;
 	long			last_meal;
 	int				i;
 	int				meal;
-	bool			*alive;
 }	t_ph;
 
 /*	PHILO.C */
