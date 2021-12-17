@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/14 13:49:23 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 12:42:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ int	join_philo(t_ph *ph, int philo)
 		pthread_mutex_destroy(ph[i].rfork);
 		i++;
 	}
-	pthread_mutex_destroy(ph[0].print);
-	pthread_mutex_destroy(ph[0].end);
-	pthread_mutex_destroy(ph[0].alive);
+	pthread_mutex_destroy(ph->print);
+	pthread_mutex_destroy(ph->end);
 	return (0);
 }

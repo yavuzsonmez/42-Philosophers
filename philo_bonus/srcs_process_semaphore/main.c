@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:09:52 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 15:05:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*	Store and verify the parameters passed to the program */
 
-size_t	parameters(char **argv, t_param *param)
+static size_t	parameters(char **argv, t_param *param)
 {
 	param->nb_philo = ft_atoi_ll(argv[1]);
 	param->time_to_die = ft_atoi_ll(argv[2]);
@@ -40,7 +40,7 @@ size_t	parameters(char **argv, t_param *param)
 	return (0);
 }
 
-/*	Philosophers with THREADS & MUTEX */
+/*	Philosophers with PROCESSES & SEMAPHORES */
 
 int	main(int argc, char **argv)
 {
@@ -56,14 +56,12 @@ int	main(int argc, char **argv)
 	ph = create_philo(&param);
 	if (ph == NULL && free_data(ph) == 0)
 		return (1);
-	if (param.nb_philo == 1)
-	{
-		printer(ph, FORK);
-		ft_sleep(param.time_to_die, ph);
-		printer(ph, DIE);
-	}
-	if (join_philo(ph, param.nb_philo) && free_data(ph) == 0)
-		return (1);
+	// if (param.nb_philo == 1)
+	// {
+	// 	printer(ph, FORK);
+	// 	ft_sleep(param.time_to_die, ph);
+	// 	printer(ph, DIE);
+	// }
 	free_data(ph);
 	return (0);
 }

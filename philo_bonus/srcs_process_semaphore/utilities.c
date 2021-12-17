@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:10:06 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 14:44:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,6 @@ long long	ft_atoi_ll(char *str)
 
 int	free_data(t_ph *ph)
 {
-	int	i;
-	int	philo;
-
-	i = 0;
-	philo = ph[0].param->nb_philo;
-	while (i < philo)
-	{
-		if (ph[i].rfork != NULL)
-			free(ph[i].rfork);
-		i++;
-	}
-	if (ph->alive != NULL)
-		free(ph->alive);
 	if (ph != NULL)
 		free(ph);
 	return (0);

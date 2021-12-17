@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/14 13:52:59 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 17:42:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_p_s.h"
 
-/*	Sleeping function, after finishing the meal */
 
+/*
 static int	sleeping(t_ph *ph)
 {
 	if (*(ph->alive) == true)
@@ -23,7 +23,6 @@ static int	sleeping(t_ph *ph)
 	return (0);
 }
 
-/*	Taking forks and eating, drop fork at the end */
 
 static int	eating(t_ph *ph)
 {
@@ -50,36 +49,37 @@ static int	eating(t_ph *ph)
 	ph->meal++;
 	return (0);
 }
-
-/*	Thinking state, after eating and before getting a fork
-*	Small sleep for the first thinkers of the diner for synchronisation
 */
 
 static void	thinking(t_ph *ph)
 {
-	if (*(ph->alive) == true)
-		printer(ph, THINK);
-	if (ph->meal == 0)
-		ft_sleep(100, ph);
+	(void)ph;
+	printf("im sleeping\n");
+	usleep(100000);
 }
 
-/*	Routine for threads */
 
-void	*schedule(void *ph)
+/*	Routine for processes */
+
+void	schedule(t_ph *ph)
 {
-	if (ph == NULL || ((t_ph *)ph)->param->nb_philo == 1)
-		return (NULL);
-	if (((t_ph *)ph)->i % 2 == ODD)
+	int i;
+	//sem_t *sem;
+
+	if (ph->i % 2 == ODD)
 		thinking(ph);
+	//sem = sem_open("/print", O_CREAT);
+	i = 0;
 	while (1)
 	{
-		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
+		//sem_wait(sem);
+		//printer(ph, EAT);
+		printf("Hello I am philo %d and my pid is %d\n", ph->i, ph->philo);
+		//sem_post(sem);
+		if (i == 10)
 			break ;
-		if (eating(ph))
-			break ;
-		if (sleeping(ph))
-			break ;
-		thinking(ph);
+		i++;
 	}
-	return (NULL);
+	//sem_close(sem);
+	return ;
 }

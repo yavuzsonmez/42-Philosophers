@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/14 09:56:41 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 14:58:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@
 *		MAX : 2147483647
 */
 
-# include	<limits.h>
-# include	<stdio.h>
-# include	<string.h>
 # include	<stdlib.h>
 # include	<unistd.h>
 # include	<sys/time.h>
-# include	<signal.h>
 # include	<pthread.h>
 # include	<stdbool.h>
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 13:20:20 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 15:05:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*	Store and verify the parameters passed to the program */
 
-size_t	parameters(char **argv, t_param *param)
+static size_t	parameters(char **argv, t_param *param)
 {
 	param->nb_philo = ft_atoi_ll(argv[1]);
 	param->time_to_die = ft_atoi_ll(argv[2]);

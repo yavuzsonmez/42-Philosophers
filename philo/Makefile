@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/12/13 12:19:46 by ysonmez          ###   ########.fr        #
+#    Updated: 2021/12/17 14:30:38 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS			=		srcs_thread_mutex/main.c \
 
 OBJS			=		$(SRCS:.c=.o)
 
-CFLAGS			=		-Wall -Wextra -Werror #-g -fsanitize=thread
+CFLAGS			=		-Wall -Wextra -Werror
 
 $(NAME)			:		$(OBJS)
 						@gcc $(CFLAGS) $(OBJS) -lpthread -o $(NAME)

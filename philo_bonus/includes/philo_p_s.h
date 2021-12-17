@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_p_s.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/14 13:52:16 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 17:38:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@
 *		MAX : 2147483647
 */
 
-# include	<limits.h>
-# include	<stdio.h>
-# include	<string.h>
 # include	<stdlib.h>
 # include	<unistd.h>
-# include	<sys/time.h>
-# include	<signal.h>
 # include	<pthread.h>
 # include	<stdbool.h>
+# include	<semaphore.h>
+# include	<stdio.h>
+# include	<signal.h>
+# include	<fcntl.h>
+# include	<sys/time.h>
+# include	<sys/stat.h>
+# include	<sys/types.h>
+# include	<sys/wait.h>
 
 # define EVEN	0
 # define ODD	1
@@ -58,14 +61,15 @@ typedef enum e_state
 typedef struct s_ph
 {
 	t_param			*param;
-	pid_t			philosoph;
+	sem_t			*sem;
+	pid_t			philo;
 	long			last_meal;
 	int				i;
 	int				meal;
 }	t_ph;
 
 /*	PHILO.C */
-void		*schedule(void *ph);
+void		schedule(t_ph *ph);
 
 /*	THREADS.C */
 t_ph		*create_philo(t_param *param);

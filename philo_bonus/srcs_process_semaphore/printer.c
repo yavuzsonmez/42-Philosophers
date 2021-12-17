@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:09:59 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 16:08:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ size_t	ft_strlen(const char *s)
 static void	putnbr_buff(int n, char **buff)
 {
 	unsigned int	number;
-	char			c;
 
-	c = 0;
 	if (n < 0)
 	{
 		number = n * (-1);
@@ -91,8 +89,6 @@ int	printer(t_ph *ph, int state)
 	else if (state == DIE)
 		putstr_buff("\tdied\n", &ptr);
 	len = ft_strlen(buff);
-	pthread_mutex_lock(ph->print);
 	write(1, buff, len);
-	pthread_mutex_unlock(ph->print);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: home <home@student.42.fr>                  +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/12/09 19:18:36 by home             ###   ########.fr        #
+#    Updated: 2021/12/17 16:41:21 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,20 @@ White			=		\033[0;37m					# White
 
 NAME			=		philo
 
-SRCS			=		srcs_thread_mutex/philo.c \
-						srcs_thread_mutex/threads.c \
-						srcs_thread_mutex/utilities.c \
-						srcs_thread_mutex/timer.c \
-						srcs_thread_mutex/printer.c \
+SRCS			=		srcs_process_semaphore/main.c \
+						srcs_process_semaphore/philo.c \
+						srcs_process_semaphore/processes.c \
+						srcs_process_semaphore/timer.c \
+						srcs_process_semaphore/printer.c \
+						srcs_process_semaphore/utilities.c \
 
 OBJS			=		$(SRCS:.c=.o)
 
-CFLAGS			=		-Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS			=		-Wall -Wextra -Werror
 
 $(NAME)			:		$(OBJS)
-						@gcc $(CFLAGS) $(OBJS) -lpthread -o $(NAME)
-						@echo "$(Cyan)Philosopher with Processes and Semaphores has been created$(Set_Color)"
+						@gcc $(CFLAGS) $(OBJS) -pthread -o $(NAME)
+						@echo "$(Cyan)Philo with Processes and Semaphores has been created$(Set_Color)"
 
 clean			:
 						@rm -f $(OBJS)

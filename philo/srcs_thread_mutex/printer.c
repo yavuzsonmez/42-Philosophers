@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 13:18:06 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 12:43:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ size_t	ft_strlen(const char *s)
 static void	putnbr_buff(int n, char **buff)
 {
 	unsigned int	number;
-	char			c;
 
-	c = 0;
 	if (n < 0)
 	{
 		number = n * (-1);

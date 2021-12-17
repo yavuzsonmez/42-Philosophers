@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 16:10:04 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/17 15:06:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,7 @@ long	get_time(void)
 	return (milliseconds);
 }
 
-/*	- Using usleep directly can introduce significant delays because
-*	`man usleep` says that `usleep` will sleep at least n milliseconds
-*		Why ?
-*				"The sleep may be lengthened slightly by any system activity
-*				or by the time spent processing the call or by the
-*				granularity of system timers"
-*
-*	This function fix that and introduce not more than
-*	1-2 milliseconds each loop in our case
-*
-*	- Also check during sleep if a philo die
-*/
+/*
 
 int	ft_sleep(long s_time, t_ph *ph)
 {
@@ -63,3 +52,4 @@ int	ft_sleep(long s_time, t_ph *ph)
 	}
 	return (0);
 }
+*/
