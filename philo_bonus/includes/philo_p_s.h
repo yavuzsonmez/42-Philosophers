@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   philo_p_s.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 17:38:47 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 13:39:06 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_P_S_H
 
 # define PHILO_P_S_H
-
 
 /*	Header and Srcs with Processes and Semaphores */
 
@@ -22,6 +21,10 @@
 *		MIN : -2147483648
 *		MAX : 2147483647
 */
+
+/*	Debug */
+
+# define PRINT_HERE() (printf("file: %s, line: %d\n", __FILE__, __LINE__))
 
 # include	<stdlib.h>
 # include	<unistd.h>
@@ -61,7 +64,9 @@ typedef enum e_state
 typedef struct s_ph
 {
 	t_param			*param;
-	sem_t			*sem;
+	sem_t			*print;
+	sem_t			*forks;
+	sem_t			*end;
 	pid_t			philo;
 	long			last_meal;
 	int				i;

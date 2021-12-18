@@ -25,8 +25,6 @@ long	get_time(void)
 	return (milliseconds);
 }
 
-/*
-
 int	ft_sleep(long s_time, t_ph *ph)
 {
 	long	sleep_start;
@@ -36,15 +34,10 @@ int	ft_sleep(long s_time, t_ph *ph)
 	current_time = sleep_start;
 	while (sleep_start + s_time > current_time)
 	{
-		if (*(ph->alive) == false)
-		{
-			return (1);
-		}
 		if (ph->param->time_to_die < (current_time - ph->param->start_time
 				- ph->last_meal))
 		{
 			printer(ph, DIE);
-			*(ph->alive) = false;
 			return (1);
 		}
 		usleep(100);
@@ -52,4 +45,3 @@ int	ft_sleep(long s_time, t_ph *ph)
 	}
 	return (0);
 }
-*/
