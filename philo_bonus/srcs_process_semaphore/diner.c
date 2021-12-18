@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   diner.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 14:01:44 by node             ###   ########.fr       */
+/*   Updated: 2021/12/18 16:36:44 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,23 @@ static int	sleeping(t_ph *ph)
 	return (0);
 }
 
-
 static int	eating(t_ph *ph)
 {
-	sem_wait(ph->forks);
+	sem_wait(ph->param->forks);
 	printer(ph, FORK);
-	sem_wait(ph->forks);
+	sem_wait(ph->param->forks);
 	printer(ph, FORK);
 	ph->last_meal = get_time() - ph->param->start_time;
 	printer(ph, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
 	{
-		//sem_post(ph->forks);
-		//sem_post(ph->forks);
+		sem_post(ph->param->forks);
+		sem_post(ph->param->forks);
 		return (1);
 	}
 	ph->meal++;
-	sem_post(ph->forks);
-	sem_post(ph->forks);
+	sem_post(ph->param->forks);
+	sem_post(ph->param->forks);
 	return (0);
 }
 
@@ -71,8 +70,8 @@ void	schedule(t_ph *ph)
 		if (thinking(ph))
 			break ;
 	}
-	sem_close(ph->print);
-	sem_close(ph->forks);
-	sem_close(ph->end);
+	sem_close(ph->param->print);
+	sem_close(ph->param->forks);
+	sem_close(ph->param->end);
 	return ;
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: node <node@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/13 11:10:43 by ysonmez           #+#    #+#              #
-#    Updated: 2021/12/17 14:30:38 by marvin           ###   ########.fr        #
+#    Updated: 2021/12/18 14:13:17 by node             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ White			=		\033[0;37m					# White
 NAME			=		philo
 
 SRCS			=		srcs_thread_mutex/main.c \
-						srcs_thread_mutex/philo.c \
+						srcs_thread_mutex/diner.c \
 						srcs_thread_mutex/threads.c \
 						srcs_thread_mutex/timer.c \
 						srcs_thread_mutex/printer.c \

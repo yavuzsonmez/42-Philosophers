@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   diner.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/13 13:21:01 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/18 14:14:52 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,13 @@ static int	sleeping(t_ph *ph)
 
 static int	eating(t_ph *ph)
 {
-	long	timer;
-
 	pthread_mutex_lock(ph->lfork);
 	if (*(ph->alive) == true)
 		printer(ph, FORK);
 	pthread_mutex_lock(ph->rfork);
-	timer = get_time() - ph->param->start_time;
 	if (*(ph->alive) == true)
 		printer(ph, FORK);
-	ph->last_meal = timer;
+	ph->last_meal = get_time() - ph->param->start_time;
 	if (*(ph->alive) == true)
 		printer(ph, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
@@ -55,12 +52,16 @@ static int	eating(t_ph *ph)
 *	Small sleep for the first thinkers of the diner for synchronisation
 */
 
-static void	thinking(t_ph *ph)
+static int	thinking(t_ph *ph)
 {
 	if (*(ph->alive) == true)
 		printer(ph, THINK);
 	if (ph->meal == 0)
-		ft_sleep(100, ph);
+	{
+		if (ft_sleep(100, ph))
+			return (1);
+	}
+	return (0);
 }
 
 /*	Routine for threads */
@@ -79,7 +80,8 @@ void	*schedule(void *ph)
 			break ;
 		if (sleeping(ph))
 			break ;
-		thinking(ph);
+		if (thinking(ph))
+			break ;
 	}
 	return (NULL);
 }

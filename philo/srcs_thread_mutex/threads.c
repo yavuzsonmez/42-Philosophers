@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 12:42:52 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 14:11:32 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@
 *	Fill data
 */
 
-static int	fill_philo(t_ph *ph, t_param *param)
+static int	fill_philo(t_ph *ph, t_param *param, int i)
 {
-	int	i;
-
-	i = 0;
 	while (i < param->nb_philo)
 	{
 		ph[i].rfork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
@@ -71,7 +68,7 @@ t_ph	*create_philo(t_param *param)
 		return (NULL);
 	if (pthread_mutex_init(ph->end, NULL))
 		return (NULL);
-	if (fill_philo(ph, param))
+	if (fill_philo(ph, param, 0))
 		return (NULL);
 	return (ph);
 }

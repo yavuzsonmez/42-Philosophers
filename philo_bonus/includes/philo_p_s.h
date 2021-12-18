@@ -6,7 +6,7 @@
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 13:39:06 by node             ###   ########.fr       */
+/*   Updated: 2021/12/18 16:13:40 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@
 
 typedef struct s_param
 {
+	sem_t	*print;
+	sem_t	*forks;
+	sem_t	*end;
 	int		nb_philo;
 	int		time_to_die;
 	int		time_to_eat;
@@ -64,16 +67,13 @@ typedef enum e_state
 typedef struct s_ph
 {
 	t_param			*param;
-	sem_t			*print;
-	sem_t			*forks;
-	sem_t			*end;
 	pid_t			philo;
 	long			last_meal;
 	int				i;
 	int				meal;
 }	t_ph;
 
-/*	PHILO.C */
+/*	DINER.C */
 void		schedule(t_ph *ph);
 
 /*	THREADS.C */

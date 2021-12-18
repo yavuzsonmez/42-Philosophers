@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_t_m.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 14:58:19 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 14:13:30 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_ph
 	bool			*alive;
 }	t_ph;
 
-/*	PHILO.C */
+/*	DINER.C */
 void		*schedule(void *ph);
 
 /*	THREADS.C */

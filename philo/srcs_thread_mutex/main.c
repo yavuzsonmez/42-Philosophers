@@ -3,14 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 15:05:06 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 14:18:48 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_t_m.h"
+
+/*	Check if the character is a digit or not */
+
+static int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (0);
+	else
+		return (1);
+}
+
+/*	Check if the philo parameters are  */
+
+static size_t	only_digit(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (ft_isdigit(argv[i][j]))
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 /*	Store and verify the parameters passed to the program */
 
@@ -48,6 +80,8 @@ int	main(int argc, char **argv)
 	t_ph		*ph;
 
 	if (argc < 5 || argc > 6)
+		return (1);
+	if (only_digit(argv))
 		return (1);
 	if (parameters(argv, &param))
 		return (1);

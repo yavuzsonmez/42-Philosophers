@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 16:08:58 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 16:34:25 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	printer(t_ph *ph, int state)
 	else if (state == DIE)
 		putstr_buff("\tdied\n", &ptr);
 	len = ft_strlen(buff);
+	sem_wait(ph->param->print);
 	write(1, buff, len);
+	sem_post(ph->param->print);
 	return (0);
 }
