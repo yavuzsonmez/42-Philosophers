@@ -6,7 +6,7 @@
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 16:13:40 by node             ###   ########.fr       */
+/*   Updated: 2021/12/18 17:08:45 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
 *		MIN : -2147483648
 *		MAX : 2147483647
 */
-
-/*	Debug */
-
-# define PRINT_HERE() (printf("file: %s, line: %d\n", __FILE__, __LINE__))
 
 # include	<stdlib.h>
 # include	<unistd.h>
@@ -47,6 +43,7 @@ typedef struct s_param
 	sem_t	*print;
 	sem_t	*forks;
 	sem_t	*end;
+	bool	alive;
 	int		nb_philo;
 	int		time_to_die;
 	int		time_to_eat;

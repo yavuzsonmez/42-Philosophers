@@ -6,7 +6,7 @@
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 16:16:36 by node             ###   ########.fr       */
+/*   Updated: 2021/12/18 17:14:48 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_isdigit(int c)
 static size_t	only_digit(char **argv)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 1;
 	while (argv[i] != NULL)

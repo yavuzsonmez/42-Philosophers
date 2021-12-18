@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/17 15:06:14 by marvin           ###   ########.fr       */
+/*   Updated: 2021/12/18 17:12:49 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,17 @@ int	ft_sleep(long s_time, t_ph *ph)
 	current_time = sleep_start;
 	while (sleep_start + s_time > current_time)
 	{
+		if (ph->param->alive == false)
+		{
+			return (1);
+		}
 		if (ph->param->time_to_die < (current_time - ph->param->start_time
 				- ph->last_meal))
 		{
+			sem_wait(ph->param->end);
+			ph->param->alive = false;
 			printer(ph, DIE);
+			sem_post(ph->param->end);
 			return (1);
 		}
 		usleep(100);

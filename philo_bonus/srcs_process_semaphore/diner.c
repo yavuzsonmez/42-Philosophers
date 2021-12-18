@@ -6,11 +6,13 @@
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 16:36:44 by node             ###   ########.fr       */
+/*   Updated: 2021/12/18 17:14:32 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo_p_s.h"
+
+/*	Sleeping function, after finishing the meal */
 
 static int	sleeping(t_ph *ph)
 {
@@ -19,6 +21,8 @@ static int	sleeping(t_ph *ph)
 		return (1);
 	return (0);
 }
+
+/*	Taking forks and eating, drop fork at the end */
 
 static int	eating(t_ph *ph)
 {
@@ -34,12 +38,15 @@ static int	eating(t_ph *ph)
 		sem_post(ph->param->forks);
 		return (1);
 	}
+	sem_post(ph->param->forks);
+	sem_post(ph->param->forks);
 	ph->meal++;
-	sem_post(ph->param->forks);
-	sem_post(ph->param->forks);
 	return (0);
 }
 
+/*	Thinking state, after eating and before getting a fork
+*	Small sleep for the first thinkers of the diner for synchronisation
+*/
 
 static int	thinking(t_ph *ph)
 {
@@ -51,7 +58,6 @@ static int	thinking(t_ph *ph)
 	}
 	return (0);
 }
-
 
 /*	Routine for processes */
 
