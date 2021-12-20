@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   diner.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 17:14:32 by node             ###   ########.fr       */
+/*   Updated: 2021/12/20 16:14:41 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,8 @@ void	schedule(t_ph *ph)
 	sem_close(ph->param->print);
 	sem_close(ph->param->forks);
 	sem_close(ph->param->end);
-	return ;
+	if (ph->meal == ph->param->meals_per_philo)
+		exit(EXIT_SUCCESS);
+	else
+		exit(EXIT_FAILURE);
 }

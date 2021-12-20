@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 17:14:48 by node             ###   ########.fr       */
+/*   Updated: 2021/12/20 15:16:01 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static size_t	parameters(char **argv, t_param *param)
 int	main(int argc, char **argv)
 {
 	t_param		param;
-	t_ph		*ph;
 
 	if (argc < 5 || argc > 6)
 		return (1);
@@ -87,15 +86,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (param.nb_philo == 0)
 		return (0);
-	ph = create_philo(&param);
-	if (ph == NULL && free_data(ph) == 0)
-		return (1);
-	// if (param.nb_philo == 1)
-	// {
-	// 	printer(ph, FORK);
-	// 	ft_sleep(param.time_to_die, ph);
-	// 	printer(ph, DIE);
-	// }
-	//free_data(ph);
+	create_philo(&param);
 	return (0);
 }

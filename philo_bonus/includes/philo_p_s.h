@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_p_s.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 17:08:45 by node             ###   ########.fr       */
+/*   Updated: 2021/12/20 15:06:58 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_param
 	sem_t	*print;
 	sem_t	*forks;
 	sem_t	*end;
-	bool	alive;
 	int		nb_philo;
 	int		time_to_die;
 	int		time_to_eat;
@@ -74,7 +73,7 @@ typedef struct s_ph
 void		schedule(t_ph *ph);
 
 /*	THREADS.C */
-t_ph		*create_philo(t_param *param);
+void		create_philo(t_param *param);
 int			join_philo(t_ph *ph, int philo);
 
 /*	TIMER.C */
