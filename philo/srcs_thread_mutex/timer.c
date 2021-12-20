@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/14 10:24:43 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/20 21:09:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	ft_sleep(long s_time, t_ph *ph)
 			pthread_mutex_lock(ph->end);
 			printer(ph, DIE);
 			*(ph->alive) = false;
-			pthread_mutex_unlock(ph->end);
+			pthread_mutex_unlock(ph->end);//maybe dont unlock and join the philo
 			return (1);
 		}
-		usleep(100);
+		usleep(150);
 		current_time = get_time();
 	}
 	return (0);

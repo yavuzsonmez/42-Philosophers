@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 16:56:28 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/20 21:53:43 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,10 @@
 *	Wait for child process
 */
 
-static int	fill_philo(t_param *param)
+static void	fill_philo(t_param *param, int i, pid_t	pid, int status)
 {
 	t_ph	ph;
-	int		i;
-	int		status;
-	pid_t	pid;
 
-	i = 0;
 	while (i < param->nb_philo)
 	{
 		ph.param = param;
@@ -40,20 +36,15 @@ static int	fill_philo(t_param *param)
 		i++;
 	}
 	waitpid(-1, &status, WEXITSTATUS(status));
-	{
-		if (status == 256)
-			kill(0, SIGINT);
-		while ((pid = wait(&status)) > 0);
+	if (status == 256)
 		kill(0, SIGINT);
+	else
+	{
+		pid = waitpid(-1, NULL, 0);
+		while (pid > 0)
+			pid = waitpid(-1, NULL, 0);
+		//kill(0, SIGINT);
 	}
-	//if (status == 256)
-	//	kill(0, SIGINT);
-	//else if (status == 0)
-	//{
-	//	waitpid(-1, NULL, 0);
-	//	kill(0, SIGINT);
-	//}
-	return (0);
 }
 
 /*	Create the data structure for philosophers,
@@ -74,8 +65,10 @@ void	create_philo(t_param *param)
 	param->end = sem_open("/end", O_CREAT, 0660, 1);
 	if (param->end == NULL)
 		exit(EXIT_FAILURE);
-	if (fill_philo(param))
-		exit(EXIT_FAILURE);
+	fill_philo(param, 0, 0, 0);
+	sem_close(param->print);
+	sem_close(param->forks);
+	sem_close(param->end);
 	if (sem_unlink("/forks"))
 		exit(EXIT_FAILURE);
 	if (sem_unlink("/print"))

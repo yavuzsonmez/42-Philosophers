@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 11:53:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 14:18:48 by node             ###   ########.fr       */
+/*   Updated: 2021/12/20 21:30:18 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static size_t	parameters(char **argv, t_param *param)
 	if (argv[5] != NULL)
 	{
 		param->meals_per_philo = ft_atoi_ll(argv[5]);
-		if (param->meals_per_philo < 0 || param->meals_per_philo > 2147483647)
+		if (param->meals_per_philo <= 0 || param->meals_per_philo > 2147483647)
 			return (1);
 	}
 	else

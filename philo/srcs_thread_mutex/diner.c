@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 15:01:13 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/20 21:31:20 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	*schedule(void *ph)
 		thinking(ph);
 	while (1)
 	{
-		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
-			break ;
 		if (eating(ph))
+			break ;
+		if (((t_ph *)ph)->meal == ((t_ph *)ph)->param->meals_per_philo)
 			break ;
 		if (sleeping(ph))
 			break ;
