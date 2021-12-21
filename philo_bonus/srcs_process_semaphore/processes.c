@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/21 10:54:14 by node             ###   ########.fr       */
+/*   Updated: 2021/12/21 16:59:52 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,12 @@ static void	fill_philo(t_param *param, int i, pid_t	pid, int status)
 			schedule(&ph);
 		i++;
 	}
-	waitpid(-1, &status, WEXITSTATUS(status));
-	if (status == 256)
-		kill(0, SIGINT);
-	else
+	pid = waitpid(-1, &status, WEXITSTATUS(status));
+	while (pid > 0)
 	{
-		pid = waitpid(-1, NULL, 0);
-		while (pid > 0)
-			pid = waitpid(-1, NULL, 0);
+		if (status == 256)
+			kill(0, SIGKILL);
+		pid = waitpid(-1, &status, WEXITSTATUS(status));
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/21 10:31:08 by node             ###   ########.fr       */
+/*   Updated: 2021/12/21 18:43:56 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,13 @@ static void	putstr_buff(char *s, char **buff)
 *					- Printing with one write only to save syscall and performance
 */
 
-int	printer(t_ph *ph, int state)
+void	printer(t_ph *ph, int state)
 {
 	char	*ptr;
 	char	buff[128];
 	int		len;
 
 	ptr = buff;
-	memset(buff, 0, 130);
 	putnbr_buff(get_time() - ph->param->start_time, &ptr);
 	putstr_buff("\t", &ptr);
 	putnbr_buff(ph->i, &ptr);
@@ -92,6 +91,7 @@ int	printer(t_ph *ph, int state)
 	len = ft_strlen(buff);
 	sem_wait(ph->param->print);
 	write(1, buff, len);
+	if (state == DIE)
+		exit(EXIT_FAILURE);
 	sem_post(ph->param->print);
-	return (0);
 }

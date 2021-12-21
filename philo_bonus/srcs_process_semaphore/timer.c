@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 18:01:57 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 19:51:11 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 17:04:45 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ long	get_time(void)
 	return (milliseconds);
 }
 
-int	ft_sleep(long s_time, t_ph *ph)
+void	ft_sleep(long s_time, t_ph *ph)
 {
 	long	sleep_start;
 	long	current_time;
@@ -39,10 +39,15 @@ int	ft_sleep(long s_time, t_ph *ph)
 		{
 			sem_wait(ph->param->end);
 			printer(ph, DIE);
-			return (1);
+			sem_close(ph->param->print);
+			sem_close(ph->param->forks);
+			sem_close(ph->param->end);
+			sem_unlink("/forks");
+			sem_unlink("/print");
+			sem_unlink("/end");
+			exit(EXIT_FAILURE);
 		}
 		usleep(150);
 		current_time = get_time();
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:14 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 21:31:20 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 13:55:24 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int	eating(t_ph *ph)
 	pthread_mutex_lock(ph->rfork);
 	if (*(ph->alive) == true)
 		printer(ph, FORK);
-	ph->last_meal = get_time() - ph->param->start_time;
 	if (*(ph->alive) == true)
 		printer(ph, EAT);
 	if (ft_sleep(ph->param->time_to_eat, ph))
@@ -42,6 +41,7 @@ static int	eating(t_ph *ph)
 		pthread_mutex_unlock(ph->lfork);
 		return (1);
 	}
+	ph->last_meal = get_time() - ph->param->start_time;
 	pthread_mutex_unlock(ph->rfork);
 	pthread_mutex_unlock(ph->lfork);
 	ph->meal++;

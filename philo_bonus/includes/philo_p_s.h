@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_p_s.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/21 11:26:03 by node             ###   ########.fr       */
+/*   Updated: 2021/12/21 16:16:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ void		create_philo(t_param *param);
 
 /*	TIMER.C */
 long		get_time(void);
-int			ft_sleep(long time, t_ph *ph);
+void		ft_sleep(long time, t_ph *ph);
 
 /*	PRINTER.C */
 size_t		ft_strlen(const char *s);
-int			printer(t_ph *ph, int state);
+void		printer(t_ph *ph, int state);
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
