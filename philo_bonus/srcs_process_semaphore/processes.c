@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 12:58:19 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 21:53:43 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 10:54:14 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	fill_philo(t_param *param, int i, pid_t	pid, int status)
 		pid = waitpid(-1, NULL, 0);
 		while (pid > 0)
 			pid = waitpid(-1, NULL, 0);
-		//kill(0, SIGINT);
 	}
 }
 
@@ -57,22 +56,14 @@ void	create_philo(t_param *param)
 	sem_unlink("/end");
 	sem_unlink("/print");
 	param->forks = sem_open("/forks", O_CREAT, 0660, param->nb_philo);
-	if (param->forks == NULL)
-		exit(EXIT_FAILURE);
 	param->print = sem_open("/print", O_CREAT, 0660, 1);
-	if (param->print == NULL)
-		exit(EXIT_FAILURE);
 	param->end = sem_open("/end", O_CREAT, 0660, 1);
-	if (param->end == NULL)
+	if (param->forks == NULL || param->print == NULL || param->end == NULL)
 		exit(EXIT_FAILURE);
 	fill_philo(param, 0, 0, 0);
 	sem_close(param->print);
 	sem_close(param->forks);
 	sem_close(param->end);
-	if (sem_unlink("/forks"))
-		exit(EXIT_FAILURE);
-	if (sem_unlink("/print"))
-		exit(EXIT_FAILURE);
-	if (sem_unlink("/end"))
+	if (sem_unlink("/forks") || sem_unlink("/print") || sem_unlink("/end"))
 		exit(EXIT_FAILURE);
 }

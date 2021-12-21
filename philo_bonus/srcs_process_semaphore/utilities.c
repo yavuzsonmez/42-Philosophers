@@ -6,7 +6,7 @@
 /*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 16:47:32 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/18 16:45:31 by node             ###   ########.fr       */
+/*   Updated: 2021/12/21 11:25:46 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,4 @@ long long	ft_atoi_ll(char *str)
 	if (sign % 2 == 1)
 		return (result * (-1));
 	return (result);
-}
-
-/*	Free allocated memory and close semaphores */
-
-int	free_data(t_ph *ph)
-{
-	sem_close(ph->param->print);
-	sem_close(ph->param->forks);
-	sem_close(ph->param->end);
-	if (ph != NULL)
-		free(ph);
-	return (0);
 }

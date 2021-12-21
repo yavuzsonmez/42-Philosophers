@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 19:15:12 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 21:21:48 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 10:31:08 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	printer(t_ph *ph, int state)
 	int		len;
 
 	ptr = buff;
+	memset(buff, 0, 130);
 	putnbr_buff(get_time() - ph->param->start_time, &ptr);
 	putstr_buff("\t", &ptr);
 	putnbr_buff(ph->i, &ptr);

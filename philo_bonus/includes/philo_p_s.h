@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_p_s.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
+/*   By: node <node@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 11:02:10 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/20 15:06:58 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 11:26:03 by node             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include	<sys/stat.h>
 # include	<sys/types.h>
 # include	<sys/wait.h>
+# include	<string.h>
 
 # define EVEN	0
 # define ODD	1
@@ -74,7 +75,6 @@ void		schedule(t_ph *ph);
 
 /*	THREADS.C */
 void		create_philo(t_param *param);
-int			join_philo(t_ph *ph, int philo);
 
 /*	TIMER.C */
 long		get_time(void);
@@ -86,6 +86,5 @@ int			printer(t_ph *ph, int state);
 
 /*	UTILITIES.C */
 long long	ft_atoi_ll(char *str);
-int			free_data(t_ph *ph);
 
 #endif
