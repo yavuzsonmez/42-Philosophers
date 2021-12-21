@@ -6,7 +6,7 @@
 /*   By: ysonmez <ysonmez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:44:16 by ysonmez           #+#    #+#             */
-/*   Updated: 2021/12/21 18:59:04 by ysonmez          ###   ########.fr       */
+/*   Updated: 2021/12/21 19:23:23 by ysonmez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include	<sys/time.h>
 # include	<pthread.h>
 # include	<stdbool.h>
+# include	<stdio.h>
 
 # define EVEN	0
 # define ODD	1
